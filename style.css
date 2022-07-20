@@ -1,0 +1,32 @@
+* {
+    font-family: 'Lato', sans-serif;
+    box-sizing: border-box;
+}
+.logo {
+    width: 5%;
+}
+.title {
+    font-family: 'DM Sans', sans-serif;
+    color: #D04F4F;
+    font-weight: 700;
+}
+.search {
+    background: rgba(43, 42, 42, 0.105);
+    border-radius: 5px;
+    margin-bottom: 5%;
+}
+.input-search {
+    width: 96%;
+    border: none;
+    outline: none;
+    font-family: 'Lato';
+    font-style: normal;
+    color: rgba(43, 42, 42, 0.25);
+    background: #E7E7E7;
+    font-weight: 400;
+    font-size: small;
+    line-height: 8vh;
+}
+.icons {
+    right: 0;
+}
