@@ -16,19 +16,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="container" >
-    <div class="container text-center">
+  <div class="container">
+    <header>
+    <div class="text-center mt-4">
         <img class="logo" src="/icons/cheef-hat.png" alt="toque de chef"/>
     </div>
-    <div class="container text-center"><h1 class="title h3" >Les petits plats</h1></div>
+    <div class="text-center"><h1 class="title h3" >Les petits plats</h1></div>
     </header>
-    <nav class="container">
-        <div class="container search">
+    <nav>
+        <div class="search">
             <input class="input-search" type="search" placeholder="Rechercher une recette"><i class="glass-icon fa-solid fa-magnifying-glass"></i>
         </div>
-        <div class="">
+        <div class="dropdown-group">
         <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
               Ingrédients
             </button>
             <ul class="dropdown-menu">
@@ -40,7 +41,7 @@
             </ul>
           </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-success dropdown-toggle dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
               Appareils
             </button>
             <ul class="dropdown-menu">
@@ -52,7 +53,7 @@
             </ul>
           </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-danger dropdown-toggle dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
               Ustensils
             </button>
             <ul class="dropdown-menu">
@@ -65,5 +66,7 @@
           </div>
         </div>
     </nav>
+    
+  </div>
 </body>
 </html>

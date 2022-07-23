@@ -30,3 +30,12 @@
 .icons {
     right: 0;
 }
+.dropdown-btn {
+    font-size: small;
+    line-height: 7vh;
+}
+.dropdown-group {
+    gap: 2vw;
+    display: flex;
+    flex-wrap: wrap;
+}

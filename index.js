@@ -1,0 +1,1 @@
+let localPath = '/recipes.js';
