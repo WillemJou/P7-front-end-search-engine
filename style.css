@@ -2,13 +2,26 @@
     font-family: 'Lato', sans-serif;
     box-sizing: border-box;
 }
+
 .logo {
-    width: 5%;
+    width: 4vw;
+}
+.chevron {
+    width: 10%;
 }
 .title {
     font-family: 'DM Sans', sans-serif;
     color: #D04F4F;
     font-weight: 700;
+}
+.link {
+    margin-top: 5vh;
+    display: flex;
+    margin: 5vh 33vw 0 33vw;
+    text-decoration: none;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 .search {
     background: rgba(43, 42, 42, 0.105);
@@ -18,15 +31,35 @@
 .input-search {
     width: 96%;
     border: none;
+    border-radius: 5%;
     outline: none;
     font-family: 'Lato';
     font-style: normal;
     color: rgba(43, 42, 42, 0.25);
     background: #E7E7E7;
     font-weight: 400;
-    font-size: small;
     line-height: 8vh;
 }
-.icons {
-    right: 0;
+#ingredients {
+    background: #3282F7;
+    border-radius: 5px;
+}
+#ustensils {
+    background: #ED6454; 
+    border-radius: 5px;
+}
+#appliances {
+    background: #68D9A4;
+    border-radius: 5px;
+}
+.dropdown-grp {
+    gap: 2vw;
+}
+.dropdown-btn {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    color: white;
+    width: 10vw;
+    padding: 3%;
 }
