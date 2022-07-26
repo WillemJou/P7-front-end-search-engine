@@ -26,7 +26,7 @@
 .search {
     background: rgba(43, 42, 42, 0.105);
     border-radius: 5px;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }
 .input-search {
     width: 96%;
@@ -39,6 +39,7 @@
     background: #E7E7E7;
     font-weight: 400;
     line-height: 8vh;
+    padding-left: 2vh;
 }
 #ingredients {
     background: #3282F7;
