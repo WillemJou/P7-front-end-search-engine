@@ -13,29 +13,33 @@
 .search {
     background: rgba(43, 42, 42, 0.105);
     border-radius: 5px;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }
 .input-search {
     width: 96%;
     border: none;
+    border-radius: 5px; 
     outline: none;
     font-family: 'Lato';
     font-style: normal;
     color: rgba(43, 42, 42, 0.25);
     background: #E7E7E7;
     font-weight: 400;
-    font-size: small;
     line-height: 8vh;
+    padding-left: 2vh;
 }
 .icons {
     right: 0;
 }
 .dropdown-btn {
-    font-size: small;
     line-height: 7vh;
 }
-.dropdown-group {
+.dropdown-container {
     gap: 2vw;
     display: flex;
     flex-wrap: wrap;
+    max-height: 20vh;
+}
+.btn-group ul {
+    top: 47px;
 }
