@@ -16,7 +16,41 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-    <script src="app.js" type="module"></script>
+    <div class="container">
+        <header>
+            <a href="/index.html" class="link">
+                <img src="/icons/cheef-hat.png" alt="logo les petits plats" class="logo">
+                <h1 class="title h3">Les petits plats</h1>
+            </a>
+        </header>
+        <nav>
+            <div class="search">
+                <input placeholder="Rechercher une recette" class="input-search">
+                <button class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass glass-icon"></i>
+                </button>
+            </div>
+            <div class="btn-group dropdown-grp">
+                <button id="ingredients" class="btn dropdown-btn">
+                    Ingrédients
+                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron">
+                </button>
+                <button id="appliances" class="btn dropdown-btn">
+                    Appareils
+                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron">
+                </button>
+                <button id="ustensils" class="btn dropdown-btn">
+                    Ustensils
+                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron">
+                </button>
+            </div>
+        </nav>
+    </div>
+        <section class="recipes-container">
+            <div id="row_layout" class="row">   
+            </div>
+        </section>
+        <script src="app.js" type="module"></script>
 </body>
 </html>
+

@@ -1,80 +1,53 @@
 import { recipes } from "/recipes.js"
+console.log(recipes); 
 
-const body = document.body;
+// RECIPES SECTION
+// Create initial cards
+recipes.forEach(recipe => {
+    const recipeCard = document.createElement("div");
+    recipeCard.setAttribute("id", "recipe_card")
+    recipeCard.classList.add("col-md-3", "d-flex", "flex-column", "mx-4", "my-5");
+    const rowLayout = document.getElementById("row_layout");    
+    rowLayout.append(recipeCard);
 
-// main div for contain all elements 
-const mainContainer = document.createElement("div");
-mainContainer.className ="container";
+    recipeCard.innerHTML = `
+    <div id="img_card" class="w-100 h-25"></div>
+        <div id="info_recipe" class="p-4">
+            <div id="title_time_container" class="d-flex justify-content-between">
+                <div id="title_container">
+                    <span id="title">${[recipe.name]}</span>
+                </div>
+                <div id="time_container" class="d-flex">
+                    <div><i id="time_icon" class="fa-solid fa-timer"></i></div>
+                    <div id="time">${recipe.time}</div>
+                </div>
+            </div>
+            <div id="ingredients_and_description_container" class="d-flex">
+                <div id="ingredients_container">
+                    <ul id="ingredients_list">
+                    </ul>
+                </div>
+                <div id="description_container">
+                    <article id="article">${recipe.description}
+                    </article>
+                </div>
+            </div>
+        </div>
+        `
+        let AllUl = document.querySelectorAll("#ingredients_list");
+        AllUl.forEach(ul => {
+            
+            recipe.ingredients.forEach( ingredient => {
+                let li = document.createElement("li");  
+                let liIngredientsContent = document.createTextNode(ingredient.ingredient);
+                let liQuantityContent = document.createTextNode(ingredient.quantity);
+                
+                let liUnitsContent = document.createTextNode(ingredient.unit);
 
-// HEADER 
-// Create Dom 
-const header = document.createElement("header");
-const logo = document.createElement("img");
-const h1 = document.createElement("h1");
-const linkHome = document.createElement("a");
-// src,link,text
-logo.src = "/icons/cheef-hat.png";
-linkHome.href = "/index.html";
-h1.innerHTML = "Les petits plats";
-// Class
-h1.classList.add("title", "h3");
-logo.className = "logo";
-linkHome.classList.add("link");
-// append
-linkHome.append(logo, h1);
-header.append(linkHome);
-
-const main = document.createElement("main");
-
-// NAV (Search) 
-// Create Dom
-const nav = document.createElement("nav");
-const divSearch = document.createElement("div");
-const inputSearch = document.createElement("input");
-const glassIcon = document.createElement("i");
-const buttonSearch = document.createElement("button");
-
-divSearch.className = "search";
-inputSearch.className = "input-search";
-inputSearch.placeholder = "Rechercher une recette";
-glassIcon.classList.add("glass-icon", "fa-solid", "fa-magnifying-glass");
-
-// Nav (dropdown menus)
-const dropdownDiv = document.createElement("div");
-const ingredients = document.createElement("button");
-const appliances = document.createElement("button");
-const ustensils = document.createElement("button");
-const chevronDownIngdts = document.createElement("img");
-const chevronDownAplcs = document.createElement("img");
-const chevronDownUstls = document.createElement("img");
-// ID menus
-ingredients.setAttribute("id", "ingredients");
-appliances.setAttribute("id", "appliances");
-ustensils.setAttribute("id", "ustensils");
-// class
-chevronDownIngdts.className = "chevron";
-chevronDownAplcs.className = "chevron";
-chevronDownUstls.className = "chevron";
-dropdownDiv.classList.add("btn-group", "dropdown-grp");
-ingredients.classList.add("btn", "dropdown-btn");
-appliances.classList.add("btn", "dropdown-btn");
-ustensils.classList.add("btn", "dropdown-btn");
-// text
-ingredients.innerHTML = "Ingredients";
-ustensils.innerHTML = "Ustensils";
-appliances.innerHTML = "Appareils";
-// SRC
-chevronDownIngdts.src =  "/icons/chevron-down-solid.png";
-chevronDownAplcs.src = "/icons/chevron-down-solid.png";
-chevronDownUstls.src = "/icons/chevron-down-solid.png";
-// append 
-ingredients.append(chevronDownIngdts);
-appliances.append(chevronDownAplcs);
-ustensils.append(chevronDownUstls);
-dropdownDiv.append(ingredients, appliances, ustensils);
-divSearch.append(inputSearch, buttonSearch);
-buttonSearch.append(glassIcon);
-nav.append(divSearch, dropdownDiv);
-main.append(nav);
-mainContainer.append(header, nav);
-body.append(mainContainer);
+                if(ingredient.ingredient && ingredient.quantity && ingredient.unit) {
+                li.appendChild((liIngredientsContent) || (liQuantityContent) || (liUnitsContent));
+                ul.append(li);
+                } 
+            });
+        });
+    });

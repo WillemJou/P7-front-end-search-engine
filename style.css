@@ -2,31 +2,43 @@
     font-family: 'Lato', sans-serif;
     box-sizing: border-box;
 }
-
 .logo {
-    width: 4vw;
+    width: 15%;
 }
 .chevron {
     width: 10%;
+}
+.glass-icon {
+    font-size: 100%;
+    vertical-align: baseline;
+}
+#time_icon {
+    font-size: 100px;
 }
 .title {
     font-family: 'DM Sans', sans-serif;
     color: #D04F4F;
     font-weight: 700;
+    text-align: center;
 }
 .link {
     margin-top: 5vh;
     display: flex;
-    margin: 5vh 33vw 0 33vw;
+    margin: 5% 33% 0 33%;
     text-decoration: none;
     align-items: center;
     flex-direction: column;
     justify-content: center;
 }
+.search-btn {
+    width: 3%;
+    border-style: none
+}
 .search {
     background: rgba(43, 42, 42, 0.105);
     border-radius: 5px;
     margin-bottom: 3%;
+    padding: 1% 2%;
 }
 .input-search {
     width: 96%;
@@ -38,7 +50,6 @@
     color: rgba(43, 42, 42, 0.25);
     background: #E7E7E7;
     font-weight: 400;
-    line-height: 8vh;
     padding-left: 2vh;
 }
 #ingredients {
@@ -63,4 +74,14 @@
     color: white;
     width: 10vw;
     padding: 3%;
+    font-size: 1.2vw;
+}
+#recipe_card {
+    border-radius: 5px;
+    background: #E7E7E7;
+    padding: 0;
+}
+#img_card {
+    background-color: #C7BEBE;
+    border-radius: 5px 5px 0 0;
 }
