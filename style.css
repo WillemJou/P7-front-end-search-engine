@@ -52,15 +52,15 @@
     font-weight: 400;
     padding-left: 2vh;
 }
-#ingredients {
+#ingredients_btn {
     background: #3282F7;
     border-radius: 5px;
 }
-#ustensils {
+#ustensils_btn {
     background: #ED6454; 
     border-radius: 5px;
 }
-#appliances {
+#appliances_btn {
     background: #68D9A4;
     border-radius: 5px;
 }
@@ -77,6 +77,7 @@
     font-size: 1.2vw;
 }
 #recipe_card {
+    height: 450px;
     border-radius: 5px;
     background: #E7E7E7;
     padding: 0;
@@ -84,4 +85,30 @@
 #img_card {
     background-color: #C7BEBE;
     border-radius: 5px 5px 0 0;
+}
+#time_container {
+    align-items: baseline;
+    gap: 10px;
+}
+#title, #clock {
+    font-size: 25px;
+    font-weight:500;
+}
+#time{
+    font-weight: 700;
+    font-size: 25px;
+}
+ul {
+    padding: 20px 0;  
+    margin: 0;  
+}
+#description_container {
+    width: 300px;
+    padding: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+article {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
