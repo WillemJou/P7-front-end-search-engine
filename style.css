@@ -3,23 +3,24 @@
     box-sizing: border-box;
 }
 .logo {
-    width: 15%;
+    width: 75px;
 }
 .chevron {
-    width: 10%;
+    width: 13px;
 }
 .glass-icon {
     font-size: 100%;
     vertical-align: baseline;
 }
 #time_icon {
-    font-size: 100px;
+    font-size: 70px;
 }
 .title {
     font-family: 'DM Sans', sans-serif;
     color: #D04F4F;
     font-weight: 700;
     text-align: center;
+    width: 100%;
 }
 .link {
     margin-top: 5vh;
@@ -38,7 +39,7 @@
     background: rgba(43, 42, 42, 0.105);
     border-radius: 5px;
     margin-bottom: 3%;
-    padding: 1% 2%;
+    padding: 2% 2%;
 }
 .input-search {
     width: 96%;
@@ -65,16 +66,21 @@
     border-radius: 5px;
 }
 .dropdown-grp {
-    gap: 2vw;
+    gap: 20px;
 }
 .dropdown-btn {
-    display: flex;
-    justify-content: space-around;
     align-items: baseline;
     color: white;
-    width: 10vw;
     padding: 3%;
-    font-size: 1.2vw;
+    font-size: 20px;
+    width: 185px;
+}
+.row {
+    display: flex;
+    justify-content: center;
+}
+.recipes-container {
+    margin: 0 3%;
 }
 #recipe_card {
     height: 450px;
@@ -91,24 +97,62 @@
     gap: 10px;
 }
 #title, #clock {
-    font-size: 25px;
+    font-size: 20px;
     font-weight:500;
 }
 #time{
     font-weight: 700;
-    font-size: 25px;
+    font-size: 20px;
 }
 ul {
-    padding: 20px 0;  
-    margin: 0;  
+    padding: 20px 20px 0 0;  
+    margin: 0; 
+    font-size: 15px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
 }
 #description_container {
     width: 300px;
-    padding: 20px;
+    height: 230px;
+    padding: 20px 0;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 article {
+    font-size: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
 }
+
+@media screen and (max-width: 769px) {
+    .dropdown-grp {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .dropdown-btn {
+        width: 5%;
+    }
+    .recipes-container {
+        margin: 0 5%;
+    }
+}
+
+@media screen and (max-width: 503px) {
+    .dropdown-grp {
+        flex-direction: column;
+    }
+    .dropdown-btn {
+        width: 95%;
+    }
+
+}
+
+
