@@ -1,7 +1,5 @@
 import { recipes } from "/recipes.js";
-import {manipulateIngdtsArray} from "./computing.js";
 import {eventFilter} from "./function.js"
-import {filterFunction} from "./function.js"
 console.log(recipes);
 
 // RECIPES SECTION
@@ -20,9 +18,6 @@ export const displayCardMenu = () => {
     const rowLayout = document.getElementById("row_layout");
     rowLayout.append(recipeCard);
 
-    
-    // manipulate arrays to modify the display of the list of ingredients
-    // import from computing
     recipeCard.innerHTML = `
         <div id="img_card" class="w-100 h-50"></div>
         <div id="info_recipe" class="p-4">
@@ -38,7 +33,9 @@ export const displayCardMenu = () => {
                 <div id="ingredients_and_description_container" class="d-flex">
                 <div id="ingredients_container">
                 <ul id="ingredients_list">
-            
+                  ${recipe.ingredients.map(i => 
+                    `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
+                    ${i.unit === undefined ? `` : i.unit}</li>`).join("")}
                     </ul>
                 </div>
                 <div id="description_container">
@@ -49,6 +46,7 @@ export const displayCardMenu = () => {
         </div>
         `;
   });
+   
 };
 
 displayCardMenu();
