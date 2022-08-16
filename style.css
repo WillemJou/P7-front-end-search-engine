@@ -53,6 +53,13 @@
     font-weight: 400;
     padding-left: 2vh;
 }
+.input-tag {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    border-style: none;
+    outline: none;
+}
 #ingredients_btn {
     background: #3282F7;
     border-radius: 5px;
@@ -69,11 +76,14 @@
     gap: 20px;
 }
 .dropdown-btn {
+    display: flex;
     align-items: baseline;
-    color: white;
     padding: 3%;
     font-size: 20px;
     width: 185px;
+}
+.dropdown-btn:hover {
+    color: white;
 }
 .row {
     display: flex;
