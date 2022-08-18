@@ -1,14 +1,13 @@
-import { recipes } from "/recipes.js";
+import { recipes as lists } from "/recipes.js";
 import {recipesContainer} from "/DOM.js";
+import { mainBarFilterFunction } from "./function.js";
 
-const GenerateCards = (cards, filteredCards) => {
-  return { cards, filteredCards };
-};
-GenerateCards(createcards());
+
 
 // RECIPES SECTION
 // Create initial cards
-function createcards() {
+const createCards = (recipes) => {
+  recipesContainer.innerHTML = "";
   recipes.forEach((recipe) => {
     const recipeCard = document.createElement("div");
     recipeCard.setAttribute("id", "recipe_card");
@@ -19,7 +18,6 @@ function createcards() {
       "mx-4",
       "my-5"
       );
-    
       recipeCard.innerHTML = `
       <div id="img_card" class="w-100 h-50"></div>
       <div id="info_recipe" class="p-4">
@@ -51,10 +49,13 @@ function createcards() {
           </div>
           </div>
           `;
+       
           recipesContainer.append(recipeCard);
         });
       };
+      createCards(lists);
 
-      export {GenerateCards};
+
+      export {createCards};
       
       

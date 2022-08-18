@@ -1,37 +1,35 @@
-import { recipes } from "/recipes.js";
-import {inputIngredients, inputAppliances, inputUstensils, inputResearchBar, recipesContainer} from "./DOM.js";
-import { GenerateCards} from "/display.js";
+import { recipes as lists } from "/recipes.js";
+import { inputIngredients, inputAppliances, inputUstensils, inputResearchBar, recipesContainer} from "./DOM.js";
+import { createCards } from "./display.js";
+
+
 
 // Algo barre de recherche principale
-const mainBarfilterFunction = () => {
+const mainBarFilterFunction = () => {
     const inputValues = inputResearchBar.value;
-    console.log(inputValues);
-    const lowerCaseSearch = inputValues.toLowerCase();
-
-    if (inputResearchBar.textLength >= 3) {
-
-      recipesContainer.innerHTML = "";
     
-      const recipeFilter = recipes.filter((recipe) => {
-        const name = recipe.name.toLowerCase();
-        const description = recipe.description.toLowerCase();
-        const ingredients = recipe.ingredients.map(i => i.ingredient).toString().toLowerCase();
-         return (
-           name.includes(lowerCaseSearch) ||
-           description.includes(lowerCaseSearch) ||
-           ingredients.includes(lowerCaseSearch)
-           );
-          });
-        //   if (recipeFilter.length = 0) {
-        //    return recipesContainer.innerHTML = `"Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson »..."`
-        // }
-        //   else {
-          console.log(recipeFilter);
-          return GenerateCards(recipeFilter);
-          
-        };
+    if (inputValues.length >= 3) {
+        const lowerCaseSearch = inputValues.toLowerCase();
+        
+        const recipeFilter = lists.filter((recipe) => {
+            const name = recipe.name.toLowerCase();
+            const description = recipe.description.toLowerCase();
+            const ingredients = recipe.ingredients.map((i) => i.ingredient).toString().toLowerCase();
+            return (
+                name.includes(lowerCaseSearch) ||
+                description.includes(lowerCaseSearch) ||
+                ingredients.includes(lowerCaseSearch)
+                );
+            });
+            //   if (recipeFilter.length = 0) {
+                //    return recipesContainer.innerHTML = `"Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson »..."`
+                // }
+                //   else {
+                    console.log(recipeFilter);
+                    return createCards(recipeFilter);
+                };
     };
-    inputResearchBar.addEventListener("input", mainBarfilterFunction);
+    inputResearchBar.addEventListener("input", mainBarFilterFunction);
 
 
     // Algo Key-Words
@@ -41,7 +39,7 @@ const mainBarfilterFunction = () => {
         const lowerCaseSearch = inputValues.toLowerCase();
         if (inputIngredients.textLength >= 3) {
             
-            const ingredientsFilter = recipes.filter(recipe => {
+            const ingredientsFilter = lists.filter(recipe => {
                 const ingredients = recipe.ingredients.map(i => i.ingredient).toString().toLowerCase();
                 return (ingredients.includes(lowerCaseSearch));
             });
@@ -58,7 +56,7 @@ const mainBarfilterFunction = () => {
         const lowerCaseSearch = inputValues.toLowerCase();
         if (inputAppliances.textLength >= 3) {
             
-            const appliancesFilter = recipes.filter(recipe => {
+            const appliancesFilter = lists.filter(recipe => {
                 const appliances = recipe.appliance.toString().toLowerCase();
                 return (appliances.includes(lowerCaseSearch));
             });
@@ -75,7 +73,7 @@ const mainBarfilterFunction = () => {
         const lowerCaseSearch = inputValues.toLowerCase();
         if (inputUstensils.textLength >= 3) {
             
-            const ustensilsFilter = recipes.filter(recipe => {
+            const ustensilsFilter = lists.filter(recipe => {
                 const ustensils = recipe.ustensils.toString().toLowerCase();
                 return (ustensils.includes(lowerCaseSearch));
             });
@@ -88,7 +86,7 @@ const mainBarfilterFunction = () => {
 
     
     
-
+export { mainBarFilterFunction };
 
 
 
