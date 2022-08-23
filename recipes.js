@@ -1,7 +1,7 @@
             export const recipes = [
     {
         "id": 1,
-        "name" : "Limonade de Coco",
+        "name" : "Limonade de coco",
         "servings" : 1,
         "ingredients": [
             {
@@ -59,7 +59,7 @@
                 "quantity" : 5
             },
             {
-                "ingredient" : "Lait de Coco",
+                "ingredient" : "Lait de coco",
                 "quantity" : 100,
                 "unit" : "ml"
             }
@@ -103,7 +103,7 @@
         ],
         "time": 80,
         "description": "Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive. Salez et poivrez. Une fois doré, laisser cuire en ajoutant de l'eau. Au bout de 30 minutes, ajouter le coulis de tomate, le lait de coco ainsi que le poivron et l'oignon découpés en morceaux. Laisser cuisiner 30 minutes de plus. Servir avec du riz",
-        "appliance": "Cocotte",
+        "appliance": "cocotte",
         "ustensils": ["couteau"]
     },{
         "id": 4,
@@ -540,7 +540,7 @@
         ],
         "time": 60,
         "description":"Mélangez dans un saladier, la farine, les oeufs, et le lait. Battez jusqu'à avoir une masse homogène. Pendant ce temps faites fondre le beurre et ajoutez en une partie à la pâte à crêpes. Faire fondre le chocolat ( avec le reste du beurre salé ). Lorsque vous chauffez les crêpes. Ajouter le chocolat fondu et les bananes coupées en rondelles. Ajoutez une touche de chantilly pour les gourmands",
-        "appliance": "Poële à crêpe",
+        "appliance": "Poêle à crêpe",
         "ustensils":["saladier", "louche", "cuillère en bois"]
     },
     {
@@ -1081,7 +1081,7 @@
         ],
         "time": 60,
         "description":"Découper en cubes les carottes et pommes de terre. Faire revenir dans du beurre. Ajouter les lardons, une fois les lardons dorés, ajouter un grand verre d'eau. Ajouter les petit poids et les haricots verts ( tous deux pré cuits ). Ajouter Sel, poivre, thyms et laurier",
-        "appliance": "Poële",
+        "appliance": "Poêle",
         "ustensils":["Couteau", "économe"]
     },
     {
@@ -1665,7 +1665,7 @@
                 "quantity": 2
             },
             {
-                "ingredient": "Kiwis",
+                "ingredient": "Kiwi",
                 "quantity": 3
             },
             {
@@ -1703,7 +1703,7 @@
                 "quantity": 6
             },
             {
-                "ingredient": "Poudre d'amendes",
+                "ingredient": "Poudre d'amandes",
                 "quantity": 500,
                 "unit": "grammes"
             },

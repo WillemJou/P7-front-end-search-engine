@@ -1,7 +1,12 @@
 import { recipes as lists } from "/recipes.js";
-import {recipesContainer} from "/DOM.js";
-import { mainBarFilterFunction } from "./function.js";
+import { recipesContainer,
+        ingredientsSuggestContainer,
+        inputIngredients,
+        tagsContainer,
+        suggestKeywords,
 
+
+ } from "/DOM.js";
 
 
 // RECIPES SECTION
@@ -17,13 +22,13 @@ const createCards = (recipes) => {
       "flex-column",
       "mx-4",
       "my-5"
-      );
-      recipeCard.innerHTML = `
+    );
+    recipeCard.innerHTML = `
       <div id="img_card" class="w-100 h-50"></div>
       <div id="info_recipe" class="p-4">
       <div id="title_time_container" class="d-flex justify-content-between">
       <div id="title_container">
-      <span id="title">${[recipe.name]}</span>
+      <span id="title">${recipe.name}</span>
       </div>
       <div id="time_container" class="d-flex">
       <div><i id="clock" class="fa-regular fa-clock"></i></div>
@@ -36,10 +41,10 @@ const createCards = (recipes) => {
       ${recipe.ingredients
         .map(
           (i) =>
-          `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
+            `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
           ${i.unit === undefined ? `` : i.unit}</li>`
-          )
-          .join("")}
+        )
+        .join("")}
           </ul>
           </div>
           <div id="description_container">
@@ -49,13 +54,34 @@ const createCards = (recipes) => {
           </div>
           </div>
           `;
-       
-          recipesContainer.append(recipeCard);
-        });
-      };
-      createCards(lists);
+
+    recipesContainer.append(recipeCard);
+  });
+};
+createCards(lists);
+
+const displaySuggestContainer = (ingredients) => {
+  ingredientsSuggestContainer.innerHTML = `${ingredients.map((ingdt) => 
+    `<option class="suggestions-words">${ingdt}</option>`).join(" ")}`;
+  !inputIngredients.value.includes(ingredients) ? ingredientsSuggestContainer.style.display = "flex" : 
+  ingredientsSuggestContainer.style.display = "none";
+};
+
+const displayTags = (tags) => {
+  tagsContainer.innerHTML = `${tags.map((tag) => `<div class="tag">${tag}</div>`)}`;
+};
+
+const eventTag =() => {
+  suggestKeywords.forEach((keyword) => {
+  keyword.addEventListener("click", displayTags);
+});
+};
+eventTag();
 
 
-      export {createCards};
-      
-      
+
+
+
+
+
+export { createCards, displaySuggestContainer };

@@ -63,6 +63,23 @@
 #ingredients_btn {
     background: #3282F7;
     border-radius: 5px;
+};
+.tags {
+    display: none;
+}
+.ingredients-keywords {
+    display: none;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    text-align: initial;
+}
+.suggestions-words:hover {
+    color: aquamarine;
+}
+.suggestions-words{
+    z-index: 1;
+   font-size: 15px;
 }
 #ustensils_btn {
     background: #ED6454; 
@@ -75,12 +92,14 @@
 .dropdown-grp {
     gap: 20px;
 }
-.dropdown-btn {
+.input-chevron-container {
     display: flex;
     align-items: baseline;
+}
+.dropdown-btn {
+    color: white;
     padding: 3%;
     font-size: 20px;
-    width: 185px;
 }
 .dropdown-btn:hover {
     color: white;
