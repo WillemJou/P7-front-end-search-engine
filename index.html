@@ -30,28 +30,41 @@
                     <i class="fa-solid fa-magnifying-glass glass-icon"></i>
                 </button>
             </div>
-            <div class="tags"></div>
+            <div class="tags-container">
+            <div class="ingredients-tags-container"></div>
+            <div class="appliances-tags-container"></div>
+            <div class="ustensils-tags-container"></div>
+            </div>
             <div class="btn-group dropdown-grp">
-                <button id="ingredients_btn" class="btn dropdown-btn">
+        
+                    <button id="ingredients_btn" class="btn dropdown-btn">
                     <div class="input-chevron-container">
                    <input class="ingredients-input input-tag" type="text" placeholder="Ingrédients"> 
-                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron">
+                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron ingredients-chevron-down">
+                    <img src="/icons/chevron-up-solid.png" alt="chevron" class="chevron ingredients-chevron-up">
                     </div>
                     <div class="ingredients-keywords"></div>
                 </button>
+            
                 <button id="appliances_btn" class="btn dropdown-btn">
                     <div class="input-chevron-container">
                     <input class="appliances-input input-tag" type="text" placeholder="Appareils">
-                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron">
+                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron appliances-chevron-down">
+                    <img src="/icons/chevron-up-solid.png" alt="chevron" class="chevron appliances-chevron-up">
                     </div>
+                    <div class="appliances-keywords"></div>
                 </button>
+           
+               
                 <button id="ustensils_btn" class="btn dropdown-btn">
                     <div class="input-chevron-container">
                     <input class="ustensils-input input-tag" type="text" placeholder="Ustensils">
-                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron">
+                    <img src="/icons/chevron-down-solid.png" alt="chevron" class="chevron ustensils-chevron-down">
+                    <img src="/icons/chevron-up-solid.png" alt="chevron" class="chevron ustensils-chevron-up">
                     </div>
+                    <div class="ustensils-keywords"></div>
                 </button>
-            </div>
+           
         </nav>
     </div>
         <section class="recipes-container">
