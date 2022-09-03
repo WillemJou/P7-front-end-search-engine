@@ -1,27 +1,23 @@
 import { recipes as lists } from "/recipes.js";
-import { recipesContainer,
-        ingredientsSuggestContainer,
-        appliancesSuggestContainer,
-        ustensilsSuggestContainer,
-        inputIngredients,
-        inputUstensils,
-        inputAppliances,
-        tagsContainer,
-        ingdtsTagsContainer,
-        applTagsContainer, 
-        ustlsTagsContainer,
-        chevrons,
-        ingredientsChevronsDown,
-        ingredientsChevronsUp,
-        ingredientsBtn,
-        appliancesBtn,
-        ustensilsBtn,
-
-
- } from "/DOM.js";
-
-
-
+import {
+  recipesContainer,
+  ingredientsSuggestContainer,
+  appliancesSuggestContainer,
+  ustensilsSuggestContainer,
+  inputIngredients,
+  inputUstensils,
+  inputAppliances,
+  tagsContainer,
+  ingdtsTagsContainer,
+  applTagsContainer,
+  ustlsTagsContainer,
+  chevrons,
+  ingredientsChevronsDown,
+  ingredientsChevronsUp,
+  ingredientsBtn,
+  appliancesBtn,
+  ustensilsBtn,
+} from "/DOM.js";
 
 // RECIPES SECTION
 // Create initial cards
@@ -68,30 +64,28 @@ const createCards = (recipes) => {
           </div>
           </div>
           `;
-          
-          recipesContainer.append(recipeCard);
-        });
-      };
-      createCards(lists);
-      
-      tagsContainer.style.display ="grid";
-      
-  const addIngredientsTags = (node) => {
-    const tagText = node.innerText;
-    console.log(tagText);
-    ingdtsTagsContainer.innerHTML += `
+
+    recipesContainer.append(recipeCard);
+  });
+};
+createCards(lists);
+
+const addIngredientsTags = (node) => {
+  const tagText = node.innerText;
+  console.log(tagText);
+  ingdtsTagsContainer.innerHTML += `
     <div class="tag-ingredients">${tagText}
     <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-    const tags = document.querySelectorAll(".tag-ingredients");
-    crossStyle();
-    const tagStyle = tags.forEach((tag) => {
-      tag.style.background = "#3282F7";
-      tag.style.color = "white";
-      tag.style.borderRadius = "5px";
-      tag.style.width = "max-content";
-      tag.style.margin = "5px";
-      tag.style.padding = "5px";
-    });
+  const tags = document.querySelectorAll(".tag-ingredients");
+  crossStyle();
+  const tagStyle = tags.forEach((tag) => {
+    tag.style.background = "#3282F7";
+    tag.style.color = "white";
+    tag.style.borderRadius = "5px";
+    tag.style.width = "max-content";
+    tag.style.margin = "5px";
+    tag.style.padding = "5px";
+  });
 };
 
 const addAppliancesTags = (node) => {
@@ -125,7 +119,6 @@ const addUstensilsTags = (node) => {
     tag.style.margin = "5px";
     tag.style.padding = "5px";
   });
-  
 };
 // FONCTION REMOVETAG FOR ALL TAGS
 const crossStyle = () => {
@@ -138,59 +131,69 @@ const crossStyle = () => {
 };
 
 const createIngredientsSuggestContainer = (ingredients) => {
+  ingredientsSuggestContainer.style.display = !inputIngredients.value.includes(ingredients)
+    ? "flex"
+    : "none";
   const mapped = ingredients
-  .map((ingdt) => `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
-  .join(" ");
+    .map(
+      (ingdt) => `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
+    .join(" ");
   ingredientsSuggestContainer.innerHTML = mapped;
   const nodes = [...document.querySelectorAll(".suggestions-ingredients-words")];
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addIngredientsTags(node));
-    
   });
-  ingredientsSuggestContainer.style.display = !inputIngredients.value.includes(ingredients) ?
-  "flex" : "none";
 };
 
 const openSuggestsWithChevron = () => {
-  if (ingredientsSuggestContainer.style.display = "flex"){
+  if ((ingredientsSuggestContainer.style.display = "flex")) {
     // ingredientsChevronsUp.style.display ="block";
     // //ingredientsChevronsDown.addEventListener("click", ingredientsSuggestContainer.style.display = "flex");
     // ingredientsChevronsDown.style.display = "none";
-  };
+  }
 };
 openSuggestsWithChevron();
 
 const createAppliancesSuggestContainer = (appliances) => {
   const mapped = appliances
-  .map((appl) => `<option class="suggestions-appliances-words">${appl}</option>`)
-  .join(" ");
+    .map(
+      (appl) => `<option class="suggestions-appliances-words">${appl}</option>`
+    )
+    .join(" ");
   appliancesSuggestContainer.innerHTML = mapped;
   const nodes = [...document.querySelectorAll(".suggestions-appliances-words")];
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addAppliancesTags(node));
   });
-  appliancesSuggestContainer.style.display = !inputAppliances.value.includes(appliances) ?
-  "flex" : "none";
+  appliancesSuggestContainer.style.display = !inputAppliances.value.includes(
+    appliances
+  )
+    ? "flex"
+    : "none";
 };
 
 const createUstensilsSuggestContainer = (ustensils) => {
   const mapped = ustensils
-  .map((ustensil) => `<option class="suggestions-ustensils-words">${ustensil}</option>`)
-  .join(" ");
+    .map(
+      (ustensil) =>
+        `<option class="suggestions-ustensils-words">${ustensil}</option>`
+    )
+    .join(" ");
   ustensilsSuggestContainer.innerHTML = mapped;
   const nodes = [...document.querySelectorAll(".suggestions-ustensils-words")];
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addUstensilsTags(node));
   });
-  ustensilsSuggestContainer.style.display = !inputUstensils.value.includes(ustensils) ?
-  "flex" : "none";
+  ustensilsSuggestContainer.style.display = !inputUstensils.value.includes(
+    ustensils
+  )
+    ? "flex"
+    : "none";
 };
 
-
-
-
-
-export { createCards, 
+export {
+  createCards,
   createIngredientsSuggestContainer,
-  createUstensilsSuggestContainer, 
-createAppliancesSuggestContainer, };
+  createUstensilsSuggestContainer,
+  createAppliancesSuggestContainer,
+};
