@@ -132,47 +132,47 @@ const crossStyle = () => {
 
 const createIngredientsSuggestContainer = (ingredients) => {
   ingredientsSuggestContainer.style.display = !inputIngredients.value.includes(ingredients)
-    ? "flex"
-    : "none";
+  ? "flex"
+  : "none";
   const mapped = ingredients
-    .map(
-      (ingdt) => `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
+  .map(
+    (ingdt) => `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
     .join(" ");
-  ingredientsSuggestContainer.innerHTML = mapped;
+    ingredientsSuggestContainer.innerHTML = mapped;
+    if(inputIngredients.value == 0){
+      ingredientsSuggestContainer.style.display = "none";
+    };
   const nodes = [...document.querySelectorAll(".suggestions-ingredients-words")];
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addIngredientsTags(node));
   });
 };
 
-const openSuggestsWithChevron = () => {
-  if ((ingredientsSuggestContainer.style.display = "flex")) {
-    // ingredientsChevronsUp.style.display ="block";
-    // //ingredientsChevronsDown.addEventListener("click", ingredientsSuggestContainer.style.display = "flex");
-    // ingredientsChevronsDown.style.display = "none";
-  }
-};
-openSuggestsWithChevron();
-
 const createAppliancesSuggestContainer = (appliances) => {
+  appliancesSuggestContainer.style.display = !inputAppliances.value.includes(appliances)
+    ? "flex"
+    : "none";
+    if(inputAppliances.value == 0){
+      appliancesSuggestContainer.style.display = "none";
+    };
   const mapped = appliances
     .map(
-      (appl) => `<option class="suggestions-appliances-words">${appl}</option>`
-    )
+      (appl) => `<option class="suggestions-appliances-words suggestions-words">${appl}</option>`)
     .join(" ");
   appliancesSuggestContainer.innerHTML = mapped;
   const nodes = [...document.querySelectorAll(".suggestions-appliances-words")];
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addAppliancesTags(node));
   });
-  appliancesSuggestContainer.style.display = !inputAppliances.value.includes(
-    appliances
-  )
-    ? "flex"
-    : "none";
 };
 
 const createUstensilsSuggestContainer = (ustensils) => {
+  ustensilsSuggestContainer.style.display = !inputUstensils.value.includes(ustensils)
+    ? "flex"
+    : "none";
+    if(inputUstensils.value == 0){
+      ustensilsSuggestContainer.style.display = "none";
+    };
   const mapped = ustensils
     .map(
       (ustensil) =>
@@ -184,12 +184,16 @@ const createUstensilsSuggestContainer = (ustensils) => {
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addUstensilsTags(node));
   });
-  ustensilsSuggestContainer.style.display = !inputUstensils.value.includes(
-    ustensils
-  )
-    ? "flex"
-    : "none";
 };
+
+// const openSuggestsWithChevron = () => {
+//   if ((ingredientsSuggestContainer.style.display = "flex")) {
+//     // ingredientsChevronsUp.style.display ="block";
+//     // //ingredientsChevronsDown.addEventListener("click", ingredientsSuggestContainer.style.display = "flex");
+//     // ingredientsChevronsDown.style.display = "none";
+//   }
+// };
+// openSuggestsWithChevron();
 
 export {
   createCards,
