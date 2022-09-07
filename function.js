@@ -4,12 +4,8 @@ import {
   inputAppliances,
   inputUstensils,
   inputResearchBar,
-  ingredientsChevronsDown,
-  ingredientsChevronsUp,
-  ingredientsSuggestContainer,
-  appliancesSuggestContainer,
-  ustensilsSuggestContainer,
 } from "./DOM.js";
+
 import {
   createCards,
   createIngredientsSuggestContainer,
@@ -20,13 +16,13 @@ import {
 // Message d'erreur si aucunes recettes n'est affichées ? A faire
 
 const mappedIngredients = (recipe) => {
- return recipe.ingredients
+  return recipe.ingredients
     .map((i) => i.ingredient)
     .toString()
     .toLowerCase();
 };
-    const mainSearchResult = () => {
-    const inputValues = inputResearchBar.value;
+const mainSearchResult = () => {
+  const inputValues = inputResearchBar.value;
   const lowerCaseSearch = inputValues.toLowerCase();
   const recipeFilter = lists.filter((recipe) => {
     const name = recipe.name.toLowerCase();
@@ -35,7 +31,8 @@ const mappedIngredients = (recipe) => {
     return (
       name.includes(lowerCaseSearch) ||
       description.includes(lowerCaseSearch) ||
-      ingredient.includes(lowerCaseSearch));
+      ingredient.includes(lowerCaseSearch)
+    );
   });
   return recipeFilter;
 };
@@ -45,71 +42,70 @@ const mainBarFilterFunction = () => {
   const inputValues = inputResearchBar.value;
   if (inputValues.length >= 3) {
     // Display result or return all cards
-    return createCards(mainSearchResult(inputValues));
+    return createCards(mainSearchResult());
   } else {
-    return createCards(lists);}};
+    return createCards(lists);
+  }
+};
 inputResearchBar.addEventListener("input", mainBarFilterFunction);
-
-// research for advanced search inputs 
+// research for advanced search inputs
 // INGREDIENTS
 const ingredientsFilterFunction = () => {
   const inputIngredientsValues = inputIngredients.value;
   const lowerCaseIngredientsSearch = inputIngredientsValues.toLowerCase();
-  if (inputIngredientsValues.length > 0) {
-    const findIngredients = () => {
-      const getIngredientsFromRecipeFilter = mainSearchResult().map(
-        (recipe) => {
-          const ingredients = recipe.ingredients.map((i) => i.ingredient);
-          return ingredients;
-        } 
-      );
-      const flatIngredients = getIngredientsFromRecipeFilter.flat();
-      const removeDuplicate = flatIngredients.filter((element, index) => {
-        return flatIngredients.indexOf(element) === index;
-      });
-      const matchIngredientsWithInput = removeDuplicate.filter((f) => {
-        return f.toString().toLowerCase().includes(lowerCaseIngredientsSearch);
-      });
-      const ingredientsFilter = mainSearchResult().filter((recipe) => {
-        const ingredients = mappedIngredients(recipe);
-        return ingredients.includes(lowerCaseIngredientsSearch);
-      });
-      return { displayCards: createCards(ingredientsFilter),
-        Suggests: createIngredientsSuggestContainer(matchIngredientsWithInput)
-      };
+  const findIngredients = () => {
+    const getIngredientsFromRecipeFilter = mainSearchResult().map((recipe) => {
+      const ingredients = recipe.ingredients.map((i) => i.ingredient);
+      return ingredients;
+    });
+    const flatIngredients = getIngredientsFromRecipeFilter.flat();
+    const removeDuplicate = flatIngredients.filter((element, index) => {
+      return flatIngredients.indexOf(element) === index;
+    });
+    const matchIngredientsWithInput = removeDuplicate.filter((f) => {
+      return f.toString().toLowerCase().includes(lowerCaseIngredientsSearch);
+    });
+    const ingredientsFilter = mainSearchResult().filter((recipe) => {
+      const ingredients = mappedIngredients(recipe);
+      return ingredients.includes(lowerCaseIngredientsSearch);
+    });
+    return {
+      displayCards: createCards(ingredientsFilter),
+      SuggestsWithResearch: createIngredientsSuggestContainer(matchIngredientsWithInput, removeDuplicate),
+
     };
-    inputIngredients.addEventListener("input", findIngredients);
-  } else {
-    return mainBarFilterFunction();
-  }
+  };
+  inputIngredients.addEventListener("input", findIngredients);
+
+  
 };
 inputIngredients.addEventListener("input", ingredientsFilterFunction);
 
 // APPLIANCES
 const appliancesFilterFunction = () => {
   const inputAppliancesValues = inputAppliances.value;
-  const lowerCaseAppliancesSearch = inputAppliancesValues.toLowerCase();
-  if (inputAppliancesValues.length > 0) {
+  const lowerCaseAppliancesSearch = inputAppliancesValues.toLowerCase()
     const findAppliances = () => {
-        const appliances = mainSearchResult().map((list) => list.appliance);
-        const matchAppliancesWithInput = appliances.filter((f) => {
-          return f.toString().toLowerCase().includes(lowerCaseAppliancesSearch);
-        });
-        const removeDuplicate = matchAppliancesWithInput.filter(
-          (element, index) => {
-            return matchAppliancesWithInput.indexOf(element) === index;});
-    const appliancesFilter = mainSearchResult().filter((recipe) => {
-      const appliances = recipe.appliance.toString().toLowerCase();
-      return appliances.includes(lowerCaseAppliancesSearch);
-    });
-    // Display result of input inside dropdown
-    return { displayCards: createCards(appliancesFilter),
-            suggests: createAppliancesSuggestContainer(removeDuplicate)};
+      const appliances = mainSearchResult().map((list) => list.appliance);
+      const removeDuplicate = appliances.filter(
+        (element, index) => {
+          return appliances.indexOf(element) === index;
+        }
+      );
+      const matchAppliancesWithInput = removeDuplicate.filter((f) => {
+        return f.toString().toLowerCase().includes(lowerCaseAppliancesSearch);
+      });
+      const appliancesFilter = mainSearchResult().filter((recipe) => {
+        const appliances = recipe.appliance.toString().toLowerCase();
+        return appliances.includes(lowerCaseAppliancesSearch);
+      });
+      // Display result of input inside dropdown
+      return {
+        displayCards: createCards(appliancesFilter),
+        displaySuggests: createAppliancesSuggestContainer(matchAppliancesWithInput, removeDuplicate)
+      };
     };
     inputAppliances.addEventListener("input", findAppliances);
-  } else { 
-    return mainBarFilterFunction();
-  }
 };
 inputAppliances.addEventListener("input", appliancesFilterFunction);
 
@@ -117,28 +113,31 @@ inputAppliances.addEventListener("input", appliancesFilterFunction);
 const ustensilsFilterFunction = () => {
   const inputUstensilsValues = inputUstensils.value;
   const lowerCaseUstensilsSearch = inputUstensilsValues.toLowerCase();
-  if (inputUstensilsValues.length > 0) {
     const findUstensils = () => {
-        const ustensils = mainSearchResult().map((list) => list.ustensils);
-        const flatUstensils = ustensils.flat();
-        const matchUstensilsWithInput = flatUstensils.filter((f) => {
-          return f.toString().toLowerCase().includes(lowerCaseUstensilsSearch);
-        });
-        const removeDuplicate = matchUstensilsWithInput.filter(
-          (element, index) => {
-          return matchUstensilsWithInput.indexOf(element) === index;});
-    const ustensilsFilter = mainSearchResult().filter((recipe) => {
-      const ustensils = recipe.ustensils.toString().toLowerCase();
-      return ustensils.includes(lowerCaseUstensilsSearch);
-    });
-    // Display result of input inside dropdown
-    return { displayCards: createCards(ustensilsFilter),
-             suggests: createUstensilsSuggestContainer(removeDuplicate)};
+      const ustensils = mainSearchResult().map((list) => list.ustensils);
+      const flatUstensils = ustensils.flat();
+      const removeDuplicate = flatUstensils.filter(
+        (element, index) => {
+          return flatUstensils.indexOf(element) === index;
+        }
+      );
+      const matchUstensilsWithInput = removeDuplicate.filter((f) => {
+        return f.toString().toLowerCase().includes(lowerCaseUstensilsSearch);
+      });
+      const ustensilsFilter = mainSearchResult().filter((recipe) => {
+        const ustensils = recipe.ustensils.toString().toLowerCase();
+        return ustensils.includes(lowerCaseUstensilsSearch);
+      });
+      // Display result of input inside dropdown
+      return {
+        displayCards: createCards(ustensilsFilter),
+        suggests: createUstensilsSuggestContainer(matchUstensilsWithInput, removeDuplicate),
+      };
     };
     inputUstensils.addEventListener("input", findUstensils);
-    } else {
-    return mainBarFilterFunction();}};
+  };
 inputUstensils.addEventListener("input", ustensilsFilterFunction);
 
-// USTENSILS
+export {mainBarFilterFunction, mainSearchResult}
+
 

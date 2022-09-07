@@ -4,20 +4,19 @@ import {
   ingredientsSuggestContainer,
   appliancesSuggestContainer,
   ustensilsSuggestContainer,
+  inputResearchBar,
   inputIngredients,
   inputUstensils,
   inputAppliances,
   tagsContainer,
-  ingdtsTagsContainer,
-  applTagsContainer,
-  ustlsTagsContainer,
-  chevrons,
   ingredientsChevronsDown,
   ingredientsChevronsUp,
-  ingredientsBtn,
-  appliancesBtn,
-  ustensilsBtn,
+  appliancesChevronsDown,
+  appliancesChevronsUp,
+  ustensilsChevronsDown,
+  ustensilsChevronsUp
 } from "/DOM.js";
+import { mainSearchResult } from "/function.js";
 
 // RECIPES SECTION
 // Create initial cards
@@ -26,13 +25,7 @@ const createCards = (recipes) => {
   recipes.forEach((recipe) => {
     const recipeCard = document.createElement("div");
     recipeCard.setAttribute("id", "recipe_card");
-    recipeCard.classList.add(
-      "col-md-3",
-      "d-flex",
-      "flex-column",
-      "mx-4",
-      "my-5"
-    );
+    recipeCard.classList.add("col-md-3", "d-flex", "flex-column", "my-5");
     recipeCard.innerHTML = `
       <div id="img_card" class="w-100 h-50"></div>
       <div id="info_recipe" class="p-4">
@@ -70,131 +63,186 @@ const createCards = (recipes) => {
 };
 createCards(lists);
 
-const addIngredientsTags = (node) => {
-  const tagText = node.innerText;
-  console.log(tagText);
-  ingdtsTagsContainer.innerHTML += `
-    <div class="tag-ingredients">${tagText}
-    <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-  const tags = document.querySelectorAll(".tag-ingredients");
-  crossStyle();
-  const tagStyle = tags.forEach((tag) => {
-    tag.style.background = "#3282F7";
-    tag.style.color = "white";
-    tag.style.borderRadius = "5px";
-    tag.style.width = "max-content";
-    tag.style.margin = "5px";
-    tag.style.padding = "5px";
-  });
-};
-
-const addAppliancesTags = (node) => {
-  const tagText = node.innerText;
-  applTagsContainer.innerHTML += `
-  <div class="tag-appliances">${tagText}
-  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-  const tags = document.querySelectorAll(".tag-appliances");
-  crossStyle();
-  const tagStyle = tags.forEach((tag) => {
-    tag.style.background = "#68D9A4";
-    tag.style.color = "white";
-    tag.style.borderRadius = "5px";
-    tag.style.width = "max-content";
-    tag.style.margin = "5px";
-    tag.style.padding = "5px";
-  });
-};
-const addUstensilsTags = (node) => {
-  const tagText = node.innerText;
-  ustlsTagsContainer.innerHTML += `
-  <div class="tag-ustensils">${tagText}
-  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-  const tags = document.querySelectorAll(".tag-ustensils");
-  crossStyle();
-  const tagStyle = tags.forEach((tag) => {
-    tag.style.background = "#ED6454";
-    tag.style.color = "white";
-    tag.style.borderRadius = "5px";
-    tag.style.width = "max-content";
-    tag.style.margin = "5px";
-    tag.style.padding = "5px";
-  });
-};
-// FONCTION REMOVETAG FOR ALL TAGS
-const crossStyle = () => {
+// FONCTION REMOVETAG
+const crossRemoveTag = (node) => {
   const crossesTag = document.querySelectorAll(".cross-tag");
   crossesTag.forEach((cross) => {
     cross.style.cursor = "pointer";
     cross.style.paddingLeft = "5px";
-    cross.addEventListener("click", (e) => cross.parentNode.remove());
+    cross.addEventListener("click", (e) => closeLastSearch(cross));
+    cross.addEventListener("click", (e) => node.style.display = "block");
+    
   });
 };
+// return to cards according to inputmain or any recipe
+const closeLastSearch = (cross) => {
+  cross.parentNode.remove();
+  if (inputResearchBar.value.length >= 3) {
+    return createCards(mainSearchResult());
+  } else {
+    return createCards(lists);
+  }
+};
 
-const createIngredientsSuggestContainer = (ingredients) => {
-  ingredientsSuggestContainer.style.display = !inputIngredients.value.includes(ingredients)
-  ? "flex"
-  : "none";
+// Chevron part
+const chevronEvents = () => {
+  console.log("coco");
+  ingredientsChevronsUp.addEventListener("click", (e) =>
+  closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown));
+  ingredientsChevronsDown.addEventListener("click", (e) =>
+    openSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown));
+    appliancesChevronsUp.addEventListener("click", (e) =>
+    closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown));
+    appliancesChevronsDown.addEventListener("click", (e) =>
+    openSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown));
+    ustensilsChevronsUp.addEventListener("click", (e) =>
+    closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown));
+    ustensilsChevronsDown.addEventListener("click", (e) =>
+    openSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown));
+};
+  
+const closeSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
+    suggestContainer.style.display = "none";
+    (chevronUp.style.display = "none"),
+    (chevronDown.style.display = "flex");
+};
+  
+const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
+    suggestContainer.style.display = "flex";
+    (chevronUp.style.display = "flex"),
+    (chevronDown.style.display = "none");};
+    // End chevron's part
+
+const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   const mapped = ingredients
   .map(
-    (ingdt) => `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
+    (ingdt) =>
+    `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
     .join(" ");
-    ingredientsSuggestContainer.innerHTML = mapped;
-    if(inputIngredients.value == 0){
-      ingredientsSuggestContainer.style.display = "none";
+  const mappedAll = allIngredients
+  .map(
+    (ingdt) =>
+    `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
+    .join(" ");
+    chevronEvents();
+    if (!inputIngredients.value.includes(ingredients)) {
+      (ingredientsSuggestContainer.style.display = "flex"),
+      (ingredientsChevronsUp.style.display = "flex"),
+      (ingredientsChevronsDown.style.display = "none");
+      ingredientsSuggestContainer.innerHTML = mapped;
+      };
+   if (inputIngredients.value == 0){
+    ingredientsChevronsDown.addEventListener("click", chevronEvents),
+    (ingredientsSuggestContainer.style.display = "flex"),
+      (ingredientsChevronsUp.style.display = "flex"),
+      (ingredientsChevronsDown.style.display = "none");
+    ingredientsSuggestContainer.innerHTML = mappedAll;};
+
+  const nodes = [
+    ...document.querySelectorAll(".suggestions-ingredients-words"),];
+    nodes.forEach((node) => {
+
+      node.addEventListener("click", (e) => addIngredientsTags(node));});
     };
-  const nodes = [...document.querySelectorAll(".suggestions-ingredients-words")];
-  nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addIngredientsTags(node));
+
+const addIngredientsTags = (node) => {
+  const tagText = node.innerText;
+  tagsContainer.innerHTML += `
+        <div class="tags tag-ingredients">${tagText}
+        <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
+  const tags = document.querySelectorAll(".tag-ingredients");
+  const tag = tags.forEach((tag) => {
+    tag.style.background = "#3282F7";
+    node.style.display = "none";
+    crossRemoveTag(node);
   });
 };
 
-const createAppliancesSuggestContainer = (appliances) => {
-  appliancesSuggestContainer.style.display = !inputAppliances.value.includes(appliances)
-    ? "flex"
-    : "none";
-    if(inputAppliances.value == 0){
-      appliancesSuggestContainer.style.display = "none";
-    };
+const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   const mapped = appliances
     .map(
-      (appl) => `<option class="suggestions-appliances-words suggestions-words">${appl}</option>`)
+      (appl) => `<option class="suggestions-appliances-words">${appl}</option>`)
     .join(" ");
-  appliancesSuggestContainer.innerHTML = mapped;
+    const mappedAll = allAppliances
+    .map(
+      (ingdt) =>
+        `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
+    .join(" ");
+    chevronEvents();
+    if (!inputAppliances.value.includes(appliances)) {
+      (appliancesSuggestContainer.style.display = "flex"),
+        (appliancesChevronsUp.style.display = "flex"),
+        (appliancesChevronsDown.style.display = "none");
+      appliancesSuggestContainer.innerHTML = mapped;
+    };
+    if (!inputAppliances.value == 0) {
+      (appliancesSuggestContainer.style.display = "flex"),
+        (appliancesChevronsUp.style.display = "flex"),
+        (appliancesChevronsDown.style.display = "none");
+      appliancesSuggestContainer.innerHTML = mappedAll;
+    };
   const nodes = [...document.querySelectorAll(".suggestions-appliances-words")];
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addAppliancesTags(node));
+    node.addEventListener("click", (e) => addAppliancesTags(node));});
+};
+
+const addAppliancesTags = (node) => {
+  const tagText = node.innerText;
+  tagsContainer.innerHTML += `
+  <div class="tags tag-appliances">${tagText}
+  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
+  const tags = document.querySelectorAll(".tag-appliances");
+  crossRemoveTag();
+  const tagStyle = tags.forEach((tag) => {
+    tag.style.background = "#68D9A4";
+    node.style.display = "none";
+    crossRemoveTag(node);
   });
 };
 
-const createUstensilsSuggestContainer = (ustensils) => {
-  ustensilsSuggestContainer.style.display = !inputUstensils.value.includes(ustensils)
-    ? "flex"
-    : "none";
-    if(inputUstensils.value == 0){
-      ustensilsSuggestContainer.style.display = "none";
-    };
+const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
   const mapped = ustensils
-    .map(
-      (ustensil) =>
-        `<option class="suggestions-ustensils-words">${ustensil}</option>`
-    )
+  .map(
+    (ustensil) =>
+    `<option class="suggestions-ustensils-words">${ustensil}</option>`)
     .join(" ");
-  ustensilsSuggestContainer.innerHTML = mapped;
+    const mappedAll = allUstensils
+    .map(
+      (ingdt) =>
+        `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`)
+    .join(" ");
+    chevronEvents();
+    if (!inputUstensils.value.includes(ustensils)) {
+      (ustensilsSuggestContainer.style.display = "flex"),
+        (ustensilsChevronsUp.style.display = "flex"),
+        (ustensilsChevronsDown.style.display = "none");
+      ustensilsSuggestContainer.innerHTML = mapped;
+    };
+    if (!inputUstensils.value == 0) {
+      (ustensilsSuggestContainer.style.display = "flex"),
+        (ustensilsChevronsUp.style.display = "flex"),
+        (ustensilsChevronsDown.style.display = "none");
+      ustensilsSuggestContainer.innerHTML = mappedAll;
+    };
   const nodes = [...document.querySelectorAll(".suggestions-ustensils-words")];
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addUstensilsTags(node));
-  });
+    node.addEventListener("click", (e) => addUstensilsTags(node));});
 };
 
-// const openSuggestsWithChevron = () => {
-//   if ((ingredientsSuggestContainer.style.display = "flex")) {
-//     // ingredientsChevronsUp.style.display ="block";
-//     // //ingredientsChevronsDown.addEventListener("click", ingredientsSuggestContainer.style.display = "flex");
-//     // ingredientsChevronsDown.style.display = "none";
-//   }
-// };
-// openSuggestsWithChevron();
 
+const addUstensilsTags = (node) => {
+  const tagText = node.innerText;
+  tagsContainer.innerHTML += `
+  <div class="tags tag-ustensils">${tagText}
+  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
+  const tags = document.querySelectorAll(".tag-ustensils");
+  crossRemoveTag();
+  const tagStyle = tags.forEach((tag) => {
+    tag.style.background = "#ED6454";
+    crossRemoveTag(node);
+
+  });
+};
 export {
   createCards,
   createIngredientsSuggestContainer,

@@ -7,16 +7,12 @@
 }
 .chevron {
     width: 13px;
+   
 }
 .ingredients-chevron-up,.appliances-chevron-up, .ustensils-chevron-up {
     display: none;
-    grid-column: 2;
-    grid-row: 1;
 }
-.ingredients-chevron-down, .appliances-chevron-down, .ustensils-chevron-down {
-    grid-column: 2;
-    grid-row: 1; 
-}
+
 .glass-icon {
     font-size: 100%;
     vertical-align: baseline;
@@ -45,10 +41,11 @@
     border-style: none
 }
 .search {
+    display: flex;
     background: rgba(43, 42, 42, 0.105);
     border-radius: 5px;
-    margin-bottom: 3%;
-    padding: 2% 2%;
+    margin-bottom: 35px;
+    padding: 15px 20px;
 }
 .input-search {
     width: 96%;
@@ -63,25 +60,11 @@
     padding-left: 2vh;
 }
 .input-tag {
-    grid-column: 1;
-    grid-row: 1;
     background-color: transparent;
     color: rgb(255, 255, 255);
     width: 100%;
     border-style: none;
     outline: none;
-}
-.ingredients-tags-container {
-grid-column: 1;
-
-}
-.appliances-tags-container {
-grid-column: 2;
-
-}
-.ustensils-tags-container {
-grid-column: 3;
-
 }
 #ingredients_btn {
     background: #3282F7;
@@ -131,7 +114,6 @@ grid-column: 3;
     gap: 20px;
 }
 .input-chevron-container {
-    display: grid;
     display: flex;
     align-items: baseline;
 }
@@ -143,11 +125,16 @@ grid-column: 3;
 .dropdown-btn:hover {
     color: white;
 }
+.recipes-container {
+    display: grid;
+}
 .row {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 2%;
 }
 #recipe_card {
+    width: 32%;
     height: 450px;
     border-radius: 5px;
     background: #E7E7E7;
@@ -189,7 +176,6 @@ white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 article {
     font-size: 15px;
     overflow: hidden;
@@ -198,7 +184,27 @@ article {
     -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
 }
+.tags {
+    color: white;
+    border-radius: 5px;
+    width: max-content;
+    margin: 5px;
+    padding: 5px;
+}
 
+@media screen and (max-width: 1129px) {
+    #recipe_card {
+        width: 48%;
+    }
+}
+@media screen and (max-width: 840px) {
+    #recipe_card {
+        width: 98%;
+    }
+    .recipes-container {
+        display: block;
+    }
+}
 @media screen and (max-width: 769px) {
     .dropdown-grp {
         display: flex;
@@ -207,9 +213,6 @@ article {
 
     .dropdown-btn {
         width: 5%;
-    }
-    .recipes-container {
-        margin: 0 5%;
     }
 }
 

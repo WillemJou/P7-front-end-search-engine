@@ -4,9 +4,12 @@ const inputResearchBar = document.querySelector(".input-search");
 // card's container
 const recipesContainer = document.querySelector("#row_layout");
 // chevrons
-const chevrons = document.querySelectorAll(".chevron");
-const ingredientsChevronsUp = document.querySelectorAll(".ingredients-chevron-up");
-const ingredientsChevronsDown = document.querySelectorAll(".ingredients-chevron-down");
+const ingredientsChevronsUp = document.querySelector(".ingredients-chevron-up");
+const ingredientsChevronsDown = document.querySelector(".ingredients-chevron-down");
+const appliancesChevronsUp = document.querySelector(".appliances-chevron-up");
+const appliancesChevronsDown = document.querySelector(".appliances-chevron-down");
+const ustensilsChevronsUp = document.querySelector(".ustensils-chevron-up");
+const ustensilsChevronsDown = document.querySelector(".ustensils-chevron-down");
 // input tags
 const inputIngredients = document.querySelector(".ingredients-input");
 const inputAppliances = document.querySelector(".appliances-input");
@@ -22,9 +25,6 @@ const appliancesSuggestContainer = document.querySelector(".appliances-keywords"
 const ustensilsSuggestContainer = document.querySelector(".ustensils-keywords");
 const suggestKeywords = document.querySelectorAll(".suggestions-words");
 const tagsContainer = document.querySelector((".tags-container"));
-const ingdtsTagsContainer = document.querySelector(".ingredients-tags-container");
-const applTagsContainer = document.querySelector(".appliances-tags-container");
-const ustlsTagsContainer = document.querySelector(".ustensils-tags-container");
 
 
 export {inputResearchBar, 
@@ -40,12 +40,12 @@ export {inputResearchBar,
         ustensilsSuggestContainer,
         suggestKeywords,
         tagsContainer,
-        ingdtsTagsContainer,
-        applTagsContainer,
-        ustlsTagsContainer,
-        chevrons,
         ingredientsChevronsDown,
         ingredientsChevronsUp,
+        appliancesChevronsDown,
+        appliancesChevronsUp,
+        ustensilsChevronsDown,
+        ustensilsChevronsUp,
  };
 
 
