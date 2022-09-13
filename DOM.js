@@ -1,13 +1,16 @@
-
 // input principal
-const inputResearchBar = document.querySelector(".input-search");
+const mainInput = document.querySelector(".input-search");
 // card's container
 const recipesContainer = document.querySelector("#row_layout");
 // chevrons
 const ingredientsChevronsUp = document.querySelector(".ingredients-chevron-up");
-const ingredientsChevronsDown = document.querySelector(".ingredients-chevron-down");
+const ingredientsChevronsDown = document.querySelector(
+  ".ingredients-chevron-down"
+);
 const appliancesChevronsUp = document.querySelector(".appliances-chevron-up");
-const appliancesChevronsDown = document.querySelector(".appliances-chevron-down");
+const appliancesChevronsDown = document.querySelector(
+  ".appliances-chevron-down"
+);
 const ustensilsChevronsUp = document.querySelector(".ustensils-chevron-up");
 const ustensilsChevronsDown = document.querySelector(".ustensils-chevron-down");
 // input tags
@@ -24,31 +27,26 @@ const ingredientsSuggestContainer = document.querySelector(".ingredients-keyword
 const appliancesSuggestContainer = document.querySelector(".appliances-keywords");
 const ustensilsSuggestContainer = document.querySelector(".ustensils-keywords");
 const suggestKeywords = document.querySelectorAll(".suggestions-words");
-const tagsContainer = document.querySelector((".tags-container"));
+const tagsContainer = document.querySelector(".tags-container");
 
-
-export {inputResearchBar, 
-        recipesContainer, 
-        inputAppliances, 
-        inputIngredients, 
-        inputUstensils,
-         ingredientsBtn,
-          appliancesBtn,
-           ustensilsBtn,
-        ingredientsSuggestContainer,
-        appliancesSuggestContainer,
-        ustensilsSuggestContainer,
-        suggestKeywords,
-        tagsContainer,
-        ingredientsChevronsDown,
-        ingredientsChevronsUp,
-        appliancesChevronsDown,
-        appliancesChevronsUp,
-        ustensilsChevronsDown,
-        ustensilsChevronsUp,
- };
-
-
-
-
-
+export {
+  mainInput,
+  recipesContainer,
+  inputAppliances,
+  inputIngredients,
+  inputUstensils,
+  ingredientsBtn,
+  appliancesBtn,
+  ustensilsBtn,
+  ingredientsSuggestContainer,
+  appliancesSuggestContainer,
+  ustensilsSuggestContainer,
+  suggestKeywords,
+  tagsContainer,
+  ingredientsChevronsDown,
+  ingredientsChevronsUp,
+  appliancesChevronsDown,
+  appliancesChevronsUp,
+  ustensilsChevronsDown,
+  ustensilsChevronsUp,
+};
