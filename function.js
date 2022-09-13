@@ -7,6 +7,7 @@ import {
   ingredientsChevronsDown,
   appliancesChevronsDown,
   ustensilsChevronsDown,
+  ingredientsSuggestContainer,
   tagsContainer,
 } from "./DOM.js";
 
@@ -72,13 +73,18 @@ const findIngredients = (lowerCaseIngredientsSearch) => {
 const matchIngredientsWithInput = allIngredients.filter((f) => {
   return f.toString().toLowerCase().includes(lowerCaseIngredientsSearch);
 });
-
   const ingredientFilteredRecipes = mainSearchResult().filter((f) => {
     return mappedIngredients(f).includes(lowerCaseIngredientsSearch);
   });
+
   const findAppliances = ingredientFilteredRecipes.map((list) => list.appliance);
   const matchAppliancesWithIngredientRecipes = removeDuplicate(findAppliances);
-  
+
+const match = allIngredients.filter((f) => {
+  const tags = tagsContainer.innerText;
+  return f.toString().toLowerCase().includes(tags);
+})
+console.log(match);
   return { matchIngredientsWithInput, matchAppliancesWithIngredientRecipes, 
     allIngredients, ingredientFilteredRecipes };
   

@@ -69,7 +69,10 @@ const crossRemoveTag = (node) => {
   crossesTag.forEach((cross) => {
     cross.style.cursor = "pointer";
     cross.style.paddingLeft = "5px";
-    cross.addEventListener("click", (e) => closeLastSearch(cross));
+    cross.addEventListener("click", (e) => {
+      closeLastSearch(cross);
+      ingredientsSuggestContainer.append(node);
+    });
   });
 };
 // return to cards according to inputmain or any recipe
@@ -138,9 +141,8 @@ const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
   suggestContainer.style.display = "flex";
   (chevronUp.style.display = "flex"), (chevronDown.style.display = "none");
 };
-// End chevron's part
-
 chevronEvents();
+// End chevron's part
 
 const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   const mapped = ingredients
@@ -180,12 +182,19 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
         ...document.querySelectorAll(".suggestions-ingredients-words"),
       ];
       nodes.forEach((node) => {
-        node.addEventListener("click", (e) => addIngredientsTags(node));
+        node.addEventListener("click", (e) => {
+          node.remove();
+          addIngredientsTags(node);
+          const suggestions = ingredientsSuggestContainer.childNodes;
+          const b = Array.from(suggestions);
+          console.log(b.map((i) => i.innerText));
+        });
       });
-};
-
-const addIngredientsTags = (node) => {
-  const tagText = node.innerText;
+    };
+    
+    const addIngredientsTags = (node) => {
+    
+      const tagText = node.innerText;
   tagsContainer.innerHTML += `
         <div class="tags tag-ingredients">${tagText}
         <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
@@ -195,6 +204,7 @@ const addIngredientsTags = (node) => {
     crossRemoveTag(node);
   });
 };
+
 
 const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   const mapped = appliances
