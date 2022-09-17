@@ -16,7 +16,8 @@ import {
   ustensilsChevronsDown,
   ustensilsChevronsUp,
 } from "/DOM.js";
-import { mainSearchResult } from "/function.js";
+
+import {  } from "/function.js";
 
 // RECIPES SECTION
 // Create initial cards
@@ -63,26 +64,10 @@ const createCards = (recipes) => {
 };
 createCards(lists);
 
-// FONCTION REMOVETAG
-const crossRemoveTag = (node) => {
-  const crossesTag = document.querySelectorAll(".cross-tag");
-  crossesTag.forEach((cross) => {
-    cross.style.cursor = "pointer";
-    cross.style.paddingLeft = "5px";
-    cross.addEventListener("click", (e) => {
-      closeLastSearch(cross);
-      ingredientsSuggestContainer.append(node);
-    });
-  });
-};
-// return to cards according to inputmain or any recipe
-const closeLastSearch = (cross) => {
-  cross.parentNode.remove();
-  if (mainInput.value.length >= 3) {
-    return createCards(mainSearchResult());
-  } else {
-    return createCards(lists);
-  }
+// ERROR MESSAGE
+const createErrorMsg = () => {
+   return recipesContainer.innerHTML = `<div class="error-msg">"Aucune recette ne correspond à votre critère...vous pouvez chercher tarte aux pommes, poisson, etc."
+    </div>`;
 };
 
 // Chevron part
@@ -131,12 +116,10 @@ const chevronEvents = () => {
     )
   );
 };
-
 const closeSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
   suggestContainer.style.display = "none";
   (chevronUp.style.display = "none"), (chevronDown.style.display = "flex");
 };
-
 const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
   suggestContainer.style.display = "flex";
   (chevronUp.style.display = "flex"), (chevronDown.style.display = "none");
@@ -144,6 +127,8 @@ const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
 chevronEvents();
 // End chevron's part
 
+
+//  INGREDIENTS SUGGESTIONS 
 const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   const mapped = ingredients
     .map(
@@ -160,41 +145,41 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   chevronEvents();
   ingredientsSuggestContainer.innerHTML = mappedAll;
   ingredientsSuggestContainer.innerHTML = mapped;
-  
+
+// CONDITIONS FOR CHEVRONS AND DISPLAY SUGGESTIONS CONTAINER
   if (
     (mainInput.value == 0 && inputIngredients.value == 0) ||
     (mainInput.value != 0 && inputIngredients.value == 0)
-    ) {
-      ingredientsChevronsUp.style.display = "none";
-      ingredientsChevronsDown.style.display = "flex";
-      ingredientsSuggestContainer.style.display = "none";
-    }
-    if (
-      (mainInput.value != 0 && inputIngredients.value != 0) ||
-      (mainInput.value == 0 && inputIngredients.value != 0)
-      ) {
-        ingredientsSuggestContainer.style.display = "flex";
-        ingredientsChevronsUp.style.display = "flex";
-        ingredientsChevronsDown.style.display = "none";
-      }
+  ) {
+    ingredientsChevronsUp.style.display = "none";
+    ingredientsChevronsDown.style.display = "flex";
+    ingredientsSuggestContainer.style.display = "none";
+  }
+  if (
+    (mainInput.value != 0 && inputIngredients.value != 0) ||
+    (mainInput.value == 0 && inputIngredients.value != 0)
+  ) {
+    ingredientsSuggestContainer.style.display = "flex";
+    ingredientsChevronsUp.style.display = "flex";
+    ingredientsChevronsDown.style.display = "none";
+  };
+  
+ 
+// GET NODE SUGGESTIONS FOR TAGS
+  const nodes = [
+    ...document.querySelectorAll(".suggestions-ingredients-words"),
+  ];
+  nodes.forEach((node) => {
+    node.addEventListener("click", (e) => {
+      createIngredientsTags(node);
+      node.remove();
+    });
+  });
+};
 
-      const nodes = [
-        ...document.querySelectorAll(".suggestions-ingredients-words"),
-      ];
-      nodes.forEach((node) => {
-        node.addEventListener("click", (e) => {
-          node.remove();
-          addIngredientsTags(node);
-          const suggestions = ingredientsSuggestContainer.childNodes;
-          const b = Array.from(suggestions);
-          console.log(b.map((i) => i.innerText));
-        });
-      });
-    };
-    
-    const addIngredientsTags = (node) => {
-    
-      const tagText = node.innerText;
+// INGREDIENTS TAGS
+const createIngredientsTags = (node) => {
+  const tagText = node.innerText;
   tagsContainer.innerHTML += `
         <div class="tags tag-ingredients">${tagText}
         <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
@@ -203,9 +188,9 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
     tag.style.background = "#3282F7";
     crossRemoveTag(node);
   });
-};
+};  
 
-
+// APPLIANCES SUGGESTIONS
 const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   const mapped = appliances
     .map(
@@ -244,6 +229,7 @@ const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   });
 };
 
+// APPLIANCES TAGS
 const addAppliancesTags = (node) => {
   const tagText = node.innerText;
   tagsContainer.innerHTML += `
@@ -257,6 +243,7 @@ const addAppliancesTags = (node) => {
   });
 };
 
+// USTENSILS SUGGESTIONS
 const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
   const mapped = ustensils
     .map(
@@ -290,13 +277,14 @@ const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
     ustensilsChevronsUp.style.display = "flex";
     ustensilsChevronsDown.style.display = "none";
   }
-  
+
   const nodes = [...document.querySelectorAll(".suggestions-ustensils-words")];
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => addUstensilsTags(node));
   });
 };
 
+// USTENSILS TAGS
 const addUstensilsTags = (node) => {
   const tagText = node.innerText;
   tagsContainer.innerHTML += `
@@ -309,8 +297,24 @@ const addUstensilsTags = (node) => {
     crossRemoveTag(node);
   });
 };
+
+// FONCTION REMOVETAG
+const crossRemoveTag = (node) => {
+  const crossesTag = document.querySelectorAll(".cross-tag");
+  crossesTag.forEach((cross) => {
+    cross.style.cursor = "pointer";
+    cross.style.paddingLeft = "5px";
+    cross.addEventListener("click", (e) => {
+      ingredientsSuggestContainer.append(node);
+      cross.parentNode.remove();
+    });
+  });
+};
+
+
 export {
   createCards,
+  createErrorMsg,
   createIngredientsSuggestContainer,
   createUstensilsSuggestContainer,
   createAppliancesSuggestContainer,
