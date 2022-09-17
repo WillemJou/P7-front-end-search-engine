@@ -7,18 +7,17 @@ import {
   ingredientsChevronsDown,
   appliancesChevronsDown,
   ustensilsChevronsDown,
-  ingredientsSuggestContainer,
-  tagsContainer,
 } from "./DOM.js";
 
 import {
   createCards,
+  createErrorMsg, 
   createIngredientsSuggestContainer,
   createAppliancesSuggestContainer,
   createUstensilsSuggestContainer,
 } from "./display.js";
 
-// Message d'erreur si aucunes recettes n'est affichées ? A faire
+
 const removeDuplicate = (list) =>
   list.filter((element, index) => list.indexOf(element) === index);
 
@@ -49,13 +48,43 @@ const mainSearchResult = () => {
   // Algo main bar
   const mainBarFilterFunction = () => {
     const inputValues = mainInput.value;
-    if (inputValues.length >= 3) {
-      // Display result or return all cards
-      return createCards(mainSearchResult());
-    } else {
-    return createCards(lists);
-  }
+    const mainInputFiltered = mainSearchResult();
+   // const tagInputFiltered = tagSearchResult(mainInputFiltered);
+  // Display result
+  if (inputValues.length >= 3) {
+    return createCards(mainInputFiltered);
+  } else { createCards(lists)
+  };
 };
+
+// FILTER TAG
+const getTags = () => {
+  const tags = document.querySelectorAll(".tag-ingredients");
+ const lowerCaseTags = Array.from(tags).map(tg => tg.innerText);
+ return lowerCaseTags.toString().toLowerCase();
+};
+// MATCH TAG WITH RECIPE
+const tagSearchResult = () => {
+  const recipes = mainSearchResult();
+  const tags = getTags();
+  console.log(tags);
+  console.log(recipes);
+  if (!tags.length){
+    return recipes;
+  };
+  const filterTag =  recipes.filter(recipe => {
+    const ingredientRecipes = recipes.map(recipe => recipe.ingredients.map( i => i.ingredient));
+    console.log(ingredientRecipes);
+    const l = ingredientRecipes.map(i => i.toString().toLowerCase());
+    console.log(l);
+    const matchTags = l.includes(tags);
+    console.log(matchTags);
+    return recipe.includes(matchTags);
+  });
+  console.log(filterTag); 
+  return filterTag; 
+};
+
 mainInput.addEventListener("input", mainBarFilterFunction);
 
 
@@ -185,7 +214,7 @@ mainInput.addEventListener("input", () => {
 });
 inputUstensils.addEventListener("input", () => {
   const { matchUstensilsWithInput, allUstensils, ustensilsFilteredRecipes } = ustensilsFilter();
-  createUstensilsSuggestContainer(matchUstensilsWithInput, allAppliances);
+    createUstensilsSuggestContainer(matchUstensilsWithInput, allAppliances);
   createCards(ustensilsFilteredRecipes);
 });
 

@@ -63,6 +63,12 @@ const createCards = (recipes) => {
 };
 createCards(lists);
 
+// ERROR MESSAGE
+const createErrorMsg = () => {
+  return recipesContainer.innerHTML = `<div class="error-msg">"Aucune recette ne correspond à votre critère...vous pouvez chercher tarte aux pommes, poisson, etc."
+   </div>`;
+};
+
 // FONCTION REMOVETAG
 const crossRemoveTag = (node) => {
   const crossesTag = document.querySelectorAll(".cross-tag");
@@ -144,6 +150,8 @@ const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
 chevronEvents();
 // End chevron's part
 
+
+//  INGREDIENTS SUGGESTIONS 
 const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   const mapped = ingredients
     .map(
@@ -161,6 +169,7 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   ingredientsSuggestContainer.innerHTML = mappedAll;
   ingredientsSuggestContainer.innerHTML = mapped;
   
+  // CONDITIONS FOR CHEVRONS AND DISPLAY SUGGESTIONS CONTAINER
   if (
     (mainInput.value == 0 && inputIngredients.value == 0) ||
     (mainInput.value != 0 && inputIngredients.value == 0)
@@ -178,23 +187,21 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
         ingredientsChevronsDown.style.display = "none";
       }
 
-      const nodes = [
-        ...document.querySelectorAll(".suggestions-ingredients-words"),
-      ];
-      nodes.forEach((node) => {
-        node.addEventListener("click", (e) => {
-          node.remove();
-          addIngredientsTags(node);
-          const suggestions = ingredientsSuggestContainer.childNodes;
-          const b = Array.from(suggestions);
-          console.log(b.map((i) => i.innerText));
-        });
-      });
-    };
+      // GET NODE SUGGESTIONS FOR TAGS
+  const nodes = [
+    ...document.querySelectorAll(".suggestions-ingredients-words"),
+  ];
+  nodes.forEach((node) => {
+    node.addEventListener("click", (e) => {
+      createIngredientsTags(node);
+      node.remove();
+    });
+  });
+};
     
-    const addIngredientsTags = (node) => {
-    
-      const tagText = node.innerText;
+   // INGREDIENTS TAGS
+const createIngredientsTags = (node) => {
+  const tagText = node.innerText;
   tagsContainer.innerHTML += `
         <div class="tags tag-ingredients">${tagText}
         <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
@@ -314,4 +321,5 @@ export {
   createIngredientsSuggestContainer,
   createUstensilsSuggestContainer,
   createAppliancesSuggestContainer,
+  createErrorMsg,
 };
