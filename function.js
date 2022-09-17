@@ -42,6 +42,9 @@ const mainSearchResult = () => {
       ingredient.includes(lowerCaseSearch)
       );
     });
+    if (recipeFilter == false) {
+      return createErrorMsg();
+    } else
     return recipeFilter;
   };
   
@@ -106,15 +109,7 @@ const matchIngredientsWithInput = allIngredients.filter((f) => {
     return mappedIngredients(f).includes(lowerCaseIngredientsSearch);
   });
 
-  const findAppliances = ingredientFilteredRecipes.map((list) => list.appliance);
-  const matchAppliancesWithIngredientRecipes = removeDuplicate(findAppliances);
-
-const match = allIngredients.filter((f) => {
-  const tags = tagsContainer.innerText;
-  return f.toString().toLowerCase().includes(tags);
-})
-console.log(match);
-  return { matchIngredientsWithInput, matchAppliancesWithIngredientRecipes, 
+  return { matchIngredientsWithInput, 
     allIngredients, ingredientFilteredRecipes };
   
   };  
@@ -132,12 +127,9 @@ console.log(match);
 });
 
 inputIngredients.addEventListener("input", () => {
-  const { matchIngredientsWithInput, matchAppliancesWithIngredientRecipes, 
-          allIngredients, ingredientFilteredRecipes } = ingredientsFilter();
-  const { allAppliances } = appliancesFilter();
+  const { matchIngredientsWithInput, 
+          allIngredients } = ingredientsFilter();
   createIngredientsSuggestContainer(matchIngredientsWithInput, allIngredients);
-  createAppliancesSuggestContainer(matchAppliancesWithIngredientRecipes, allAppliances);
-  createCards(ingredientFilteredRecipes);
 });
 
 ingredientsChevronsDown.addEventListener("click", () => {
@@ -176,9 +168,8 @@ mainInput.addEventListener("input", () => {
 });
 
 inputAppliances.addEventListener("input", () => {
-  const { matchAppliancesWithInput, allAppliances, appliancesfilteredRecipes } = appliancesFilter();
+  const { matchAppliancesWithInput, allAppliances } = appliancesFilter();
   createAppliancesSuggestContainer(matchAppliancesWithInput, allAppliances);
-  createCards(appliancesfilteredRecipes);
 });
 
 appliancesChevronsDown.addEventListener("click", () => {
@@ -213,9 +204,8 @@ mainInput.addEventListener("input", () => {
   createUstensilsSuggestContainer(matchUstensilsWithInput, allUstensils);
 });
 inputUstensils.addEventListener("input", () => {
-  const { matchUstensilsWithInput, allUstensils, ustensilsFilteredRecipes } = ustensilsFilter();
+  const { matchUstensilsWithInput } = ustensilsFilter();
     createUstensilsSuggestContainer(matchUstensilsWithInput, allAppliances);
-  createCards(ustensilsFilteredRecipes);
 });
 
 ustensilsChevronsDown.addEventListener("click", () => {
