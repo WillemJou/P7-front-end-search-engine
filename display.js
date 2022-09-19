@@ -16,7 +16,8 @@ import {
   ustensilsChevronsDown,
   ustensilsChevronsUp,
 } from "/DOM.js";
-import { mainSearchResult } from "/function.js";
+import { mainSearchResult, tagSearchResult } from "/function.js";
+
 
 // RECIPES SECTION
 // Create initial cards
@@ -194,6 +195,7 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => {
       createIngredientsTags(node);
+      tagSearchResult();  
       node.remove();
     });
   });

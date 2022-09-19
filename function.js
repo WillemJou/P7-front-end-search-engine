@@ -21,13 +21,14 @@ import {
 const removeDuplicate = (list) =>
   list.filter((element, index) => list.indexOf(element) === index);
 
+  const toStringAndToLowerCase = (item) => item.toString().toLowerCase();
+
 const mappedIngredients = (recipe) => {
   return recipe.ingredients
     .map((i) => i.ingredient)
     .toString()
     .toLowerCase();
 };
-
 
 const mainSearchResult = () => {
   const inputValues = mainInput.value;
@@ -60,35 +61,33 @@ const mainSearchResult = () => {
   };
 };
 
+
 // FILTER TAG
 const getTags = () => {
   const tags = document.querySelectorAll(".tag-ingredients");
- const lowerCaseTags = Array.from(tags).map(tg => tg.innerText);
- return lowerCaseTags.toString().toLowerCase();
+ const tagArr = Array.from(tags).map(tag => tag.innerText);
+ return toStringAndToLowerCase(tagArr); 
 };
+
 // MATCH TAG WITH RECIPE
 const tagSearchResult = () => {
   const recipes = mainSearchResult();
   const tags = getTags();
-  console.log(tags);
-  console.log(recipes);
   if (!tags.length){
     return recipes;
-  };
-  const filterTag =  recipes.filter(recipe => {
-    const ingredientRecipes = recipes.map(recipe => recipe.ingredients.map( i => i.ingredient));
-    console.log(ingredientRecipes);
-    const l = ingredientRecipes.map(i => i.toString().toLowerCase());
-    console.log(l);
-    const matchTags = l.includes(tags);
-    console.log(matchTags);
-    return recipe.includes(matchTags);
+  };  
+  const recipesFilterWithTags = recipes.filter( recipe => {
+    const ingredientRecipes = recipe.ingredients.map( (i) => i.ingredient.toLowerCase());
+   console.log(ingredientRecipes);
+    const filterTag = ingredientRecipes.includes(tags);
+   console.log(filterTag);
+    return filterTag;
   });
-  console.log(filterTag); 
-  return filterTag; 
-};
+  return recipesFilterWithTags;
+}
 
 mainInput.addEventListener("input", mainBarFilterFunction);
+
 
 
 
@@ -213,4 +212,4 @@ ustensilsChevronsDown.addEventListener("click", () => {
   createUstensilsSuggestContainer(matchUstensilsWithInput, allUstensils);
 });
 
-export { mainBarFilterFunction, mainSearchResult };
+export { mainBarFilterFunction, mainSearchResult, tagSearchResult  };

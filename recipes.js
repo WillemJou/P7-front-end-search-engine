@@ -923,7 +923,7 @@
         "time": 25,
         "description":"Verser de l'huile dans une cocotte minute couper les légumes et les verser dans l'huile chaude. Laisser cuire et remuer pendant 10 minutes. Passer aux mixer. Servir.",
         "appliance": "Mixer",
-        "ustensils":["cocotte minute", "couteau"]
+        "ustensils":["   minute", "couteau"]
     },
     {
         "id": 27,
