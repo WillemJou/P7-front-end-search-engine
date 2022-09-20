@@ -66,7 +66,9 @@ createCards(lists);
 
 // ERROR MESSAGE
 const createErrorMsg = () => {
-   return recipesContainer.innerHTML = `<div class="error-msg">"Aucune recette ne correspond à votre critère...vous pouvez chercher tarte aux pommes, poisson, etc."
+   return recipesContainer.innerHTML = 
+   `<div class="error-msg">"Aucune recette ne correspond à votre critère...
+   vous pouvez chercher tarte aux pommes, poisson, etc."
     </div>`;
 };
 
@@ -151,17 +153,13 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
     (mainInput.value == 0 && inputIngredients.value == 0) ||
     (mainInput.value != 0 && inputIngredients.value == 0)
   ) {
-    ingredientsChevronsUp.style.display = "none";
-    ingredientsChevronsDown.style.display = "flex";
-    ingredientsSuggestContainer.style.display = "none";
+    closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
   }
   if (
     (mainInput.value != 0 && inputIngredients.value != 0) ||
     (mainInput.value == 0 && inputIngredients.value != 0)
   ) {
-    ingredientsSuggestContainer.style.display = "flex";
-    ingredientsChevronsUp.style.display = "flex";
-    ingredientsChevronsDown.style.display = "none";
+    openSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
   };
   
  
@@ -172,7 +170,10 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => {
       createIngredientsTags(node);
+      tagSearchResult();  
+      createCards(tagSearchResult());
       node.remove();
+      closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
     });
   });
 };
@@ -211,26 +212,28 @@ const createAppliancesSuggestContainer = (appliances, allAppliances) => {
     (mainInput.value == 0 && inputAppliances.value == 0) ||
     (mainInput.value != 0 && inputAppliances.value == 0)
   ) {
-    appliancesChevronsUp.style.display = "none";
-    appliancesChevronsDown.style.display = "flex";
-    appliancesSuggestContainer.style.display = "none";
+    closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown)
   }
   if (
     (mainInput.value != 0 && inputAppliances.value != 0) ||
     (mainInput == 0 && inputAppliances != 0)
   ) {
-    appliancesSuggestContainer.style.display = "flex";
-    appliancesChevronsUp.style.display = "flex";
-    appliancesChevronsDown.style.display = "none";
+    openSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown)
   }
   const nodes = [...document.querySelectorAll(".suggestions-appliances-words")];
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addAppliancesTags(node));
-  });
-};
+    node.addEventListener("click", (e) => {
+      createAppliancesTags(node);
+      tagSearchResult();
+      createCards(tagSearchResult());
+      node.remove();
+      closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown);
+    })
+    })
+  };
 
 // APPLIANCES TAGS
-const addAppliancesTags = (node) => {
+const createAppliancesTags = (node) => {
   const tagText = node.innerText;
   tagsContainer.innerHTML += `
   <div class="tags tag-appliances">${tagText}
@@ -265,27 +268,29 @@ const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
     (mainInput.value == 0 && inputUstensils.value == 0) ||
     (mainInput.value != 0 && inputUstensils.value == 0)
   ) {
-    ustensilsChevronsUp.style.display = "none";
-    ustensilsChevronsDown.style.display = "flex";
-    ustensilsSuggestContainer.style.display = "none";
+    closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown)
   }
   if (
     (mainInput.value != 0 && inputUstensils.value != 0) ||
     (mainInput.value == 0 && inputUstensils.value != 0)
   ) {
-    ustensilsSuggestContainer.style.display = "flex";
-    ustensilsChevronsUp.style.display = "flex";
-    ustensilsChevronsDown.style.display = "none";
+    openSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown)
   }
 
   const nodes = [...document.querySelectorAll(".suggestions-ustensils-words")];
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addUstensilsTags(node));
-  });
-};
+    node.addEventListener("click", (e) => {
+      createUstensilsTags(node);
+      tagSearchResult();
+      createCards(tagSearchResult());
+      node.remove();
+      closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown);
+    })
+    })
+  };
 
 // USTENSILS TAGS
-const addUstensilsTags = (node) => {
+const createUstensilsTags = (node) => {
   const tagText = node.innerText;
   tagsContainer.innerHTML += `
   <div class="tags tag-ustensils">${tagText}
