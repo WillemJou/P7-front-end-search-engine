@@ -11,17 +11,17 @@ import {
 
 import {
   createCards,
-  createErrorMsg, 
+  createErrorMsg,
   createIngredientsSuggestContainer,
   createAppliancesSuggestContainer,
   createUstensilsSuggestContainer,
 } from "./display.js";
 
+const removeDuplicate = (list) => {
+  return list.filter((element, index) => list.indexOf(element) === index);
+};
 
-const removeDuplicate = (list) =>
-  list.filter((element, index) => list.indexOf(element) === index);
-
-  const toStringAndToLowerCase = (item) => item.toString().toLowerCase();
+const toStringAndToLowerCase = (item) => item.toString().toLowerCase();
 
 const mappedIngredients = (recipe) => {
   return recipe.ingredients
@@ -41,93 +41,109 @@ const mainSearchResult = () => {
       name.includes(lowerCaseSearch) ||
       description.includes(lowerCaseSearch) ||
       ingredient.includes(lowerCaseSearch)
-      );
-    });
-    if (recipeFilter == false) {
-      return createErrorMsg();
-    } else
-    return recipeFilter;
-  };
-  
-  // Algo main bar
-  const mainBarFilterFunction = () => {
-    const inputValues = mainInput.value;
-    const mainInputFiltered = mainSearchResult();
-   // const tagInputFiltered = tagSearchResult(mainInputFiltered);
-  // Display result
-  if (inputValues.length >= 3) {
-    return createCards(mainInputFiltered);
-  } else { createCards(lists)
-  };
+    );
+  });
+  if (recipeFilter == false) {
+    return createErrorMsg();
+  } else return recipeFilter;
 };
 
+// Algo main bar
+const mainBarFilterFunction = () => {
+  const inputValues = mainInput.value;
+  const mainInputFiltered = mainSearchResult();
+  const tagInputFiltered = tagSearchResult(mainInputFiltered);
+  // Display result
+  if (inputValues.length >= 3) {
+    return createCards(tagInputFiltered);
+  } else {
+    createCards(lists);
+  }
+};
+
+mainInput.addEventListener("input", mainBarFilterFunction);
 
 // FILTER TAG
+// GETS ALL TAGS FROM NODES
 const getTags = () => {
-  const tags = document.querySelectorAll(".tag-ingredients");
- const tagArr = Array.from(tags).map(tag => tag.innerText);
- return toStringAndToLowerCase(tagArr); 
+  const tags = document.querySelectorAll(".tags");
+  const tagArr = Array.from(tags).map((tag) => tag.innerText);
+  return toStringAndToLowerCase(tagArr);
 };
 
 // MATCH TAG WITH RECIPE
 const tagSearchResult = () => {
   const recipes = mainSearchResult();
   const tags = getTags();
-  if (!tags.length){
+  console.log(tags);
+  if (!tags.length) {
     return recipes;
-  };  
-  const recipesFilterWithTags = recipes.filter( recipe => {
-    const ingredientRecipes = recipe.ingredients.map( (i) => i.ingredient.toLowerCase());
-   console.log(ingredientRecipes);
-    const filterTag = ingredientRecipes.includes(tags);
-   console.log(filterTag);
-    return filterTag;
+  }
+  // GET Arrays TO FILTER
+  const recipesFilterWithTags = recipes.filter((recipe) => {
+    const ingredients = recipe.ingredients.map((i) =>
+      i.ingredient.toLowerCase()
+    );
+    const appliances = recipe.appliance.toLowerCase();
+    console.log(ingredients);
+    console.log(appliances);
+    const ustensils = recipe.ustensils.toString().toLowerCase();
+    console.log(ustensils);
+
+    // METHOD TO FIND IF TAGS ARE INCLUDES IN ARRAYS
+    const filterTags = () => {
+      const ingredientsfilterTag = ingredients.includes(tags);
+      console.log(ingredientsfilterTag);
+      const appliancesfilterTag = appliances.includes(tags);
+      console.log(appliancesfilterTag);
+      const ustensilsfilterTag = ustensils.includes(tags);
+      console.log(ustensilsfilterTag);
+    };
+    return filterTags;
   });
-  return recipesFilterWithTags;
-}
-
-mainInput.addEventListener("input", mainBarFilterFunction);
-
-
-
+  if (recipesFilterWithTags == false) {
+    return createErrorMsg();
+  } else return recipesFilterWithTags;
+};
 
 // research for advanced search inputs
 //  GET INGREDIENTS
 const findIngredients = (lowerCaseIngredientsSearch) => {
-  const getIngredientsFromRecipeFilter = mainSearchResult().map((recipe) => {
+  const getIngredientsFromRecipeFilter = tagSearchResult().map((recipe) => {
     const ingredients = recipe.ingredients.map((i) => i.ingredient);
     return ingredients;
   });
   // INGREDIENTS LISTS
   const flatIngredients = getIngredientsFromRecipeFilter.flat();
-  const allIngredients = removeDuplicate(flatIngredients);              
-const matchIngredientsWithInput = allIngredients.filter((f) => {
-  return f.toString().toLowerCase().includes(lowerCaseIngredientsSearch);
-});
+  const allIngredients = removeDuplicate(flatIngredients);
+  console.log(allIngredients);
+  const matchIngredientsWithInput = allIngredients.filter((f) => {
+    return f.toString().toLowerCase().includes(lowerCaseIngredientsSearch);
+  });
   const ingredientFilteredRecipes = mainSearchResult().filter((f) => {
     return mappedIngredients(f).includes(lowerCaseIngredientsSearch);
   });
 
-  return { matchIngredientsWithInput, 
-    allIngredients, ingredientFilteredRecipes };
-  
-  };  
-  const ingredientsFilter = () => {
-    const inputIngredientsValues = inputIngredients.value;
-    const lowerCaseIngredientsSearch = inputIngredientsValues.toLowerCase();
-    return findIngredients(lowerCaseIngredientsSearch);
+  return {
+    matchIngredientsWithInput,
+    allIngredients,
+    ingredientFilteredRecipes,
   };
-  
-  
-  // EVENT INPUT
-  mainInput.addEventListener("input", () => {
+};
+const ingredientsFilter = () => {
+  const inputIngredientsValues = inputIngredients.value;
+  const lowerCaseIngredientsSearch = inputIngredientsValues.toLowerCase();
+  return findIngredients(lowerCaseIngredientsSearch);
+};
+
+// EVENT INPUT
+mainInput.addEventListener("input", () => {
   const { matchIngredientsWithInput, allIngredients } = ingredientsFilter();
   createIngredientsSuggestContainer(matchIngredientsWithInput, allIngredients);
 });
 
 inputIngredients.addEventListener("input", () => {
-  const { matchIngredientsWithInput, 
-          allIngredients } = ingredientsFilter();
+  const { matchIngredientsWithInput, allIngredients } = ingredientsFilter();
   createIngredientsSuggestContainer(matchIngredientsWithInput, allIngredients);
 });
 
@@ -135,12 +151,13 @@ ingredientsChevronsDown.addEventListener("click", () => {
   const { matchIngredientsWithInput, allIngredients } = ingredientsFilter();
   createIngredientsSuggestContainer(matchIngredientsWithInput, allIngredients);
 });
+
 // APPLIANCES LISTS
 // GET APPLIANCES
-const findAppliances = (lowerCaseAppliancesSearch ) => {
-const appliances = mainSearchResult().map((list) => list.appliance);
+const findAppliances = (lowerCaseAppliancesSearch) => {
+  const appliances = tagSearchResult().map((list) => list.appliance);
   const allAppliances = removeDuplicate(appliances);
-  const matchAppliancesWithInput = allAppliances.filter((f) => {
+  const matchAppliancesWithMainInput = allAppliances.filter((f) => {
     return f.toString().toLowerCase().includes(lowerCaseAppliancesSearch);
   });
   const appliancesfilteredRecipes = mainSearchResult().filter((f) => {
@@ -148,7 +165,7 @@ const appliances = mainSearchResult().map((list) => list.appliance);
     return appl.includes(lowerCaseAppliancesSearch);
   });
   return {
-    matchAppliancesWithInput,
+    matchAppliancesWithMainInput,
     allAppliances,
     appliancesfilteredRecipes,
   };
@@ -157,28 +174,28 @@ const appliances = mainSearchResult().map((list) => list.appliance);
 const appliancesFilter = () => {
   const inputAppliancesValues = inputAppliances.value;
   const lowerCaseAppliancesSearch = inputAppliancesValues.toLowerCase();
-  return findAppliances(lowerCaseAppliancesSearch );
+  return findAppliances(lowerCaseAppliancesSearch);
 };
 
 // EVENT INPUT
 mainInput.addEventListener("input", () => {
-  const { matchAppliancesWithInput, allAppliances } = appliancesFilter();
-  createAppliancesSuggestContainer(matchAppliancesWithInput, allAppliances);
+  const { matchAppliancesWithMainInput, allAppliances } = appliancesFilter();
+  createAppliancesSuggestContainer(matchAppliancesWithMainInput, allAppliances);
 });
 
 inputAppliances.addEventListener("input", () => {
-  const { matchAppliancesWithInput, allAppliances } = appliancesFilter();
-  createAppliancesSuggestContainer(matchAppliancesWithInput, allAppliances);
+  const { matchAppliancesWithMainInput, allAppliances } = appliancesFilter();
+  createAppliancesSuggestContainer(matchAppliancesWithMainInput, allAppliances);
 });
 
 appliancesChevronsDown.addEventListener("click", () => {
-  const { matchAppliancesWithInput, allAppliances } = appliancesFilter();
-  createAppliancesSuggestContainer(matchAppliancesWithInput, allAppliances);
+  const { matchAppliancesWithMainInput, allAppliances } = appliancesFilter();
+  createAppliancesSuggestContainer(matchAppliancesWithMainInput, allAppliances);
 });
 
 //GET USTENSILS
 const findUstensils = (lowerCaseUstensilsSearch) => {
-  const ustensils = mainSearchResult().map((list) => list.ustensils);
+  const ustensils = tagSearchResult().map((list) => list.ustensils);
   const flatUstensils = ustensils.flat();
   // USTENSILS LISTS
   const allUstensils = removeDuplicate(flatUstensils);
@@ -204,7 +221,7 @@ mainInput.addEventListener("input", () => {
 });
 inputUstensils.addEventListener("input", () => {
   const { matchUstensilsWithInput } = ustensilsFilter();
-    createUstensilsSuggestContainer(matchUstensilsWithInput, allAppliances);
+  createUstensilsSuggestContainer(matchUstensilsWithInput, allAppliances);
 });
 
 ustensilsChevronsDown.addEventListener("click", () => {
@@ -212,4 +229,4 @@ ustensilsChevronsDown.addEventListener("click", () => {
   createUstensilsSuggestContainer(matchUstensilsWithInput, allUstensils);
 });
 
-export { mainBarFilterFunction, mainSearchResult, tagSearchResult  };
+export { mainBarFilterFunction, mainSearchResult, tagSearchResult };
