@@ -16,7 +16,7 @@ import {
   ustensilsChevronsDown,
   ustensilsChevronsUp,
 } from "/DOM.js";
-import { mainSearchResult, tagSearchResult } from "/function.js";
+import { tagSearchResult } from "/function.js";
 
 
 // RECIPES SECTION
@@ -28,50 +28,50 @@ const createCards = (recipes) => {
     recipeCard.setAttribute("id", "recipe_card");
     recipeCard.classList.add("col-md-3", "d-flex", "flex-column", "my-5");
     recipeCard.innerHTML = `
-      <div id="img_card" class="w-100 h-50"></div>
-      <div id="info_recipe" class="p-4">
-      <div id="title_time_container" class="d-flex justify-content-between">
-      <div id="title_container">
-      <span id="title">${recipe.name}</span>
-      </div>
-      <div id="time_container" class="d-flex">
-      <div><i id="clock" class="fa-regular fa-clock"></i></div>
-      <div id="time">${recipe.time} min</div>
-      </div>
-      </div>
-      <div id="ingredients_and_description_container" class="d-flex">
-      <div id="ingredients_container">
-      <ul id="ingredients_list">
-      ${recipe.ingredients
-        .map(
-          (i) =>
-            `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
-          ${i.unit === undefined ? `` : i.unit}</li>`
+    <div id="img_card" class="w-100 h-50"></div>
+    <div id="info_recipe" class="p-4">
+    <div id="title_time_container" class="d-flex justify-content-between">
+    <div id="title_container">
+    <span id="title">${recipe.name}</span>
+    </div>
+    <div id="time_container" class="d-flex">
+    <div><i id="clock" class="fa-regular fa-clock"></i></div>
+    <div id="time">${recipe.time} min</div>
+    </div>
+    </div>
+    <div id="ingredients_and_description_container" class="d-flex">
+    <div id="ingredients_container">
+    <ul id="ingredients_list">
+    ${recipe.ingredients
+      .map(
+        (i) =>
+        `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
+        ${i.unit === undefined ? `` : i.unit}</li>`
         )
         .join("")}
-          </ul>
-          </div>
-          <div id="description_container">
-          <article id="article">${recipe.description}
+        </ul>
+        </div>
+        <div id="description_container">
+        <article id="article">${recipe.description}
           </article>
           </div>
           </div>
           </div>
           `;
-
-    recipesContainer.append(recipeCard);
-  });
-};
-createCards(lists);
-
-// ERROR MESSAGE
-const createErrorMsg = () => {
-  return recipesContainer.innerHTML = 
-  `<div class="error-msg">"Aucune recette ne correspond à votre critère...
-  vous pouvez chercher tarte aux pommes, poisson, etc."
-   </div>`;
-};
-
+          
+          recipesContainer.append(recipeCard);
+        });
+      };
+      createCards(lists);
+      
+      // ERROR MESSAGE
+      const createErrorMsg = () => {
+        return recipesContainer.innerHTML = 
+        `<div class="error-msg">"Aucune recette ne correspond à votre critère...
+        vous pouvez chercher tarte aux pommes, poisson, etc."
+        </div>`;
+      };
+      
 // FONCTION REMOVETAG
 const crossRemoveTag = (node) => {
   const crossesTag = document.querySelectorAll(".cross-tag");
@@ -84,19 +84,14 @@ const crossRemoveTag = (node) => {
     });
   });
 };
-// return to cards according to inputmain or any recipe
+// return to cards according to filters tags 
 const closeLastSearch = (cross) => {
   cross.parentNode.remove();
-  if (mainInput.value.length >= 3) {
-    return createCards(mainSearchResult());
-  } else {
-    return createCards(lists);
-  }
-};
+    return createCards(tagSearchResult());
+  };
 
 // Chevron part
 const chevronEvents = () => {
-  console.log("coco");
   ingredientsChevronsUp.addEventListener("click", (e) => {
     closeSuggestContainer(
       ingredientsSuggestContainer,
@@ -111,8 +106,6 @@ const chevronEvents = () => {
       ingredientsChevronsDown
     )
   );
-
-
   appliancesChevronsUp.addEventListener("click", (e) =>
     closeSuggestContainer(
       appliancesSuggestContainer,
@@ -194,7 +187,6 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => {
       createIngredientsTags(node);
-      tagSearchResult();  
       createCards(tagSearchResult());
       node.remove();
       closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
@@ -219,7 +211,7 @@ const createIngredientsTags = (node) => {
 const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   const mapped = appliances
     .map(
-      (appl) => `<option class="suggestions-words suggestions-appliances-words">${appl}</option>`
+      (appl) => `<option class="suggestions-appliances-words suggestions-words">${appl}</option>`
     )
     .join(" ");
   const mappedAll = allAppliances
@@ -248,7 +240,6 @@ const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => {
       createAppliancesTags(node);
-      tagSearchResult();
       createCards(tagSearchResult());
       node.remove();
       closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown);
@@ -303,7 +294,6 @@ const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
   nodes.forEach((node) => {
     node.addEventListener("click", (e) => {
       createUstensilsTags(node);
-      tagSearchResult();
       createCards(tagSearchResult());
       node.remove();
       closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown);
