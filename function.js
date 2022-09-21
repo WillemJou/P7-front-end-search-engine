@@ -7,6 +7,7 @@ import {
   ingredientsChevronsDown,
   appliancesChevronsDown,
   ustensilsChevronsDown,
+  tagsContainer,
 } from "./DOM.js";
 
 import {
@@ -34,8 +35,8 @@ const mainSearchResult = () => {
   const inputValues = mainInput.value;
   const lowerCaseSearch = inputValues.toLowerCase();
   let recipeFilter = [];
-  let ingArr = [];
   for (let i = 0; i < lists.length; i ++) {
+    let ingArr = [];
     for (let ing of lists[i].ingredients) {
       ingArr.push(ing.ingredient.toLowerCase());
     }
@@ -44,14 +45,13 @@ const mainSearchResult = () => {
       ingArr.includes(lowerCaseSearch ) ||
       lists[i].description.toLowerCase().includes(lowerCaseSearch)
     ) {
-      return recipeFilter.push(lists[i]);
+      recipeFilter.push(lists[i]);
     };
-    console.log(recipeFilter);
-};
+  };
+  return recipeFilter;
 };
 
-
-  // Algo main bar
+// Algo main bar
 const mainBarFilterFunction = () => {
   const inputValues = mainInput.value;
   const mainInputFiltered = mainSearchResult();
@@ -70,43 +70,35 @@ mainInput.addEventListener("input", mainBarFilterFunction);
 // GETS ALL TAGS FROM NODES
 const getTags = () => {
   const tags = document.querySelectorAll(".tags");
-  const tagArr = Array.from(tags).map((tag) => tag.innerText);
-  return toStringAndToLowerCase(tagArr);
+  const tagArr = Array.from(tags);
+  const trimAndStringifyTagArr = tagArr.map((tag) => toStringAndToLowerCase(tag.innerText.trim()));
+  return trimAndStringifyTagArr;
 };
 
 // MATCH TAG WITH RECIPE
 const tagSearchResult = () => {
-  const recipes = mainSearchResult();
+  const allRecipes = mainSearchResult();
   const tags = getTags();
-  console.log(tags);
+
   if (!tags.length) {
-    return recipes;
+    return allRecipes;
   }
   // GET Arrays TO FILTER
-  const recipesFilterWithTags = recipes.filter((recipe) => {
-    const ingredients = recipe.ingredients.map((i) =>
+  const recipesFilterWithTags = allRecipes.filter((recipes) => {
+    const ingredients = recipes.ingredients.map((i) =>
       i.ingredient.toLowerCase()
     );
-    const appliances = recipe.appliance.toLowerCase();
-    console.log(ingredients);
-    console.log(appliances);
-    const ustensils = recipe.ustensils.toString().toLowerCase();
-    console.log(ustensils);
-
-    // METHOD TO FIND IF TAGS ARE INCLUDES IN ARRAYS
-    const filterTags = () => {
-      const ingredientsfilterTag = ingredients.includes(tags);
-      console.log(ingredientsfilterTag);
-      const appliancesfilterTag = appliances.includes(tags);
-      console.log(appliancesfilterTag);
-      const ustensilsfilterTag = ustensils.includes(tags);
-      console.log(ustensilsfilterTag);
-    };
-    return filterTags;
+    const appliances = recipes.appliance.toString().toLowerCase();
+    const ustensils = recipes.ustensils.map((item) => item.toString().toLowerCase());
+   
+    //  ! METHOD TO FIND IF TAGS ARE INCLUDES IN ARRAYS
+    const elements = [...ingredients, appliances, ...ustensils];
+    return tags.every((item) => elements.includes(item))  
   });
-  if (recipesFilterWithTags == false) {
-    return createErrorMsg();
-  } else return recipesFilterWithTags;
+  if (!recipesFilterWithTags.length) {
+     createErrorMsg();
+  };
+   return recipesFilterWithTags;
 };
 
 // research for advanced search inputs
@@ -119,20 +111,20 @@ const findIngredients = (lowerCaseIngredientsSearch) => {
   // INGREDIENTS LISTS
   const flatIngredients = getIngredientsFromRecipeFilter.flat();
   const allIngredients = removeDuplicate(flatIngredients);
-  console.log(allIngredients);
+
   const matchIngredientsWithInput = allIngredients.filter((f) => {
     return f.toString().toLowerCase().includes(lowerCaseIngredientsSearch);
   });
   const ingredientFilteredRecipes = mainSearchResult().filter((f) => {
     return mappedIngredients(f).includes(lowerCaseIngredientsSearch);
   });
-
   return {
     matchIngredientsWithInput,
     allIngredients,
     ingredientFilteredRecipes,
   };
 };
+
 const ingredientsFilter = () => {
   const inputIngredientsValues = inputIngredients.value;
   const lowerCaseIngredientsSearch = inputIngredientsValues.toLowerCase();
@@ -163,10 +155,11 @@ const findAppliances = (lowerCaseAppliancesSearch) => {
   const matchAppliancesWithMainInput = allAppliances.filter((f) => {
     return f.toString().toLowerCase().includes(lowerCaseAppliancesSearch);
   });
-  const appliancesfilteredRecipes = mainSearchResult().filter((f) => {
+  const appliancesfilteredRecipes = tagSearchResult().filter((f) => {
     const appl = f.appliance.toString().toLowerCase();
     return appl.includes(lowerCaseAppliancesSearch);
   });
+
   return {
     matchAppliancesWithMainInput,
     allAppliances,
@@ -205,7 +198,7 @@ const findUstensils = (lowerCaseUstensilsSearch) => {
   const matchUstensilsWithInput = allUstensils.filter((f) => {
     return f.toString().toLowerCase().includes(lowerCaseUstensilsSearch);
   });
-  const ustensilsFilteredRecipes = mainSearchResult().filter((f) => {
+  const ustensilsFilteredRecipes = tagSearchResult().filter((f) => {
     const ustensil = f.ustensils.toString().toLowerCase();
     return ustensil.includes(lowerCaseUstensilsSearch);
   });
@@ -223,8 +216,8 @@ mainInput.addEventListener("input", () => {
   createUstensilsSuggestContainer(matchUstensilsWithInput, allUstensils);
 });
 inputUstensils.addEventListener("input", () => {
-  const { matchUstensilsWithInput } = ustensilsFilter();
-  createUstensilsSuggestContainer(matchUstensilsWithInput, allAppliances);
+  const { matchUstensilsWithInput, allUstensils } = ustensilsFilter();
+  createUstensilsSuggestContainer(matchUstensilsWithInput, allUstensils);
 });
 
 ustensilsChevronsDown.addEventListener("click", () => {
