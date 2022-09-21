@@ -16,7 +16,8 @@ import {
   ustensilsChevronsDown,
   ustensilsChevronsUp,
 } from "/DOM.js";
-import { mainSearchResult } from "/function.js";
+import { tagSearchResult } from "/function.js";
+
 
 // RECIPES SECTION
 // Create initial cards
@@ -27,42 +28,50 @@ const createCards = (recipes) => {
     recipeCard.setAttribute("id", "recipe_card");
     recipeCard.classList.add("col-md-3", "d-flex", "flex-column", "my-5");
     recipeCard.innerHTML = `
-      <div id="img_card" class="w-100 h-50"></div>
-      <div id="info_recipe" class="p-4">
-      <div id="title_time_container" class="d-flex justify-content-between">
-      <div id="title_container">
-      <span id="title">${recipe.name}</span>
-      </div>
-      <div id="time_container" class="d-flex">
-      <div><i id="clock" class="fa-regular fa-clock"></i></div>
-      <div id="time">${recipe.time} min</div>
-      </div>
-      </div>
-      <div id="ingredients_and_description_container" class="d-flex">
-      <div id="ingredients_container">
-      <ul id="ingredients_list">
-      ${recipe.ingredients
-        .map(
-          (i) =>
-            `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
-          ${i.unit === undefined ? `` : i.unit}</li>`
+    <div id="img_card" class="w-100 h-50"></div>
+    <div id="info_recipe" class="p-4">
+    <div id="title_time_container" class="d-flex justify-content-between">
+    <div id="title_container">
+    <span id="title">${recipe.name}</span>
+    </div>
+    <div id="time_container" class="d-flex">
+    <div><i id="clock" class="fa-regular fa-clock"></i></div>
+    <div id="time">${recipe.time} min</div>
+    </div>
+    </div>
+    <div id="ingredients_and_description_container" class="d-flex">
+    <div id="ingredients_container">
+    <ul id="ingredients_list">
+    ${recipe.ingredients
+      .map(
+        (i) =>
+        `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
+        ${i.unit === undefined ? `` : i.unit}</li>`
         )
         .join("")}
-          </ul>
-          </div>
-          <div id="description_container">
-          <article id="article">${recipe.description}
+        </ul>
+        </div>
+        <div id="description_container">
+        <article id="article">${recipe.description}
           </article>
           </div>
           </div>
           </div>
           `;
-
-    recipesContainer.append(recipeCard);
-  });
-};
-createCards(lists);
-
+          
+          recipesContainer.append(recipeCard);
+        });
+      };
+      createCards(lists);
+      
+      // ERROR MESSAGE
+      const createErrorMsg = () => {
+        return recipesContainer.innerHTML = 
+        `<div class="error-msg">"Aucune recette ne correspond à votre critère...
+        vous pouvez chercher tarte aux pommes, poisson, etc."
+        </div>`;
+      };
+      
 // FONCTION REMOVETAG
 const crossRemoveTag = (node) => {
   const crossesTag = document.querySelectorAll(".cross-tag");
@@ -75,26 +84,21 @@ const crossRemoveTag = (node) => {
     });
   });
 };
-// return to cards according to inputmain or any recipe
+// return to cards according to filters tags 
 const closeLastSearch = (cross) => {
   cross.parentNode.remove();
-  if (mainInput.value.length >= 3) {
-    return createCards(mainSearchResult());
-  } else {
-    return createCards(lists);
-  }
-};
+    return createCards(tagSearchResult());
+  };
 
 // Chevron part
 const chevronEvents = () => {
-  console.log("coco");
-  ingredientsChevronsUp.addEventListener("click", (e) =>
+  ingredientsChevronsUp.addEventListener("click", (e) => {
     closeSuggestContainer(
       ingredientsSuggestContainer,
       ingredientsChevronsUp,
       ingredientsChevronsDown
     )
-  );
+    })
   ingredientsChevronsDown.addEventListener("click", (e) =>
     openSuggestContainer(
       ingredientsSuggestContainer,
@@ -144,6 +148,7 @@ const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
 chevronEvents();
 // End chevron's part
 
+//  INGREDIENTS SUGGESTIONS 
 const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   const mapped = ingredients
     .map(
@@ -161,40 +166,37 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   ingredientsSuggestContainer.innerHTML = mappedAll;
   ingredientsSuggestContainer.innerHTML = mapped;
   
+  // CONDITIONS FOR CHEVRONS AND DISPLAY SUGGESTIONS CONTAINER
   if (
     (mainInput.value == 0 && inputIngredients.value == 0) ||
     (mainInput.value != 0 && inputIngredients.value == 0)
     ) {
-      ingredientsChevronsUp.style.display = "none";
-      ingredientsChevronsDown.style.display = "flex";
-      ingredientsSuggestContainer.style.display = "none";
+      closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
     }
     if (
       (mainInput.value != 0 && inputIngredients.value != 0) ||
       (mainInput.value == 0 && inputIngredients.value != 0)
       ) {
-        ingredientsSuggestContainer.style.display = "flex";
-        ingredientsChevronsUp.style.display = "flex";
-        ingredientsChevronsDown.style.display = "none";
+        openSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
       }
 
-      const nodes = [
-        ...document.querySelectorAll(".suggestions-ingredients-words"),
-      ];
-      nodes.forEach((node) => {
-        node.addEventListener("click", (e) => {
-          node.remove();
-          addIngredientsTags(node);
-          const suggestions = ingredientsSuggestContainer.childNodes;
-          const b = Array.from(suggestions);
-          console.log(b.map((i) => i.innerText));
-        });
-      });
-    };
+      // GET NODE SUGGESTIONS FOR TAGS
+  const nodes = [
+    ...document.querySelectorAll(".suggestions-ingredients-words"),
+  ];
+  nodes.forEach((node) => {
+    node.addEventListener("click", (e) => {
+      createIngredientsTags(node);
+      createCards(tagSearchResult());
+      node.remove();
+      closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
+    });
+  });
+};
     
-    const addIngredientsTags = (node) => {
-    
-      const tagText = node.innerText;
+   // INGREDIENTS TAGS
+const createIngredientsTags = (node) => {
+  const tagText = node.innerText;
   tagsContainer.innerHTML += `
         <div class="tags tag-ingredients">${tagText}
         <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
@@ -209,7 +211,7 @@ const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
 const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   const mapped = appliances
     .map(
-      (appl) => `<option class="suggestions-appliances-words">${appl}</option>`
+      (appl) => `<option class="suggestions-appliances-words suggestions-words">${appl}</option>`
     )
     .join(" ");
   const mappedAll = allAppliances
@@ -226,25 +228,26 @@ const createAppliancesSuggestContainer = (appliances, allAppliances) => {
     (mainInput.value == 0 && inputAppliances.value == 0) ||
     (mainInput.value != 0 && inputAppliances.value == 0)
   ) {
-    appliancesChevronsUp.style.display = "none";
-    appliancesChevronsDown.style.display = "flex";
-    appliancesSuggestContainer.style.display = "none";
-  }
+    closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown)
+    }
   if (
     (mainInput.value != 0 && inputAppliances.value != 0) ||
     (mainInput == 0 && inputAppliances != 0)
   ) {
-    appliancesSuggestContainer.style.display = "flex";
-    appliancesChevronsUp.style.display = "flex";
-    appliancesChevronsDown.style.display = "none";
+    openSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown)
   }
   const nodes = [...document.querySelectorAll(".suggestions-appliances-words")];
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addAppliancesTags(node));
-  });
-};
+    node.addEventListener("click", (e) => {
+      createAppliancesTags(node);
+      createCards(tagSearchResult());
+      node.remove();
+      closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown);
+    })
+    })
+  };
 
-const addAppliancesTags = (node) => {
+const createAppliancesTags = (node) => {
   const tagText = node.innerText;
   tagsContainer.innerHTML += `
   <div class="tags tag-appliances">${tagText}
@@ -261,7 +264,7 @@ const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
   const mapped = ustensils
     .map(
       (ustensil) =>
-        `<option class="suggestions-ustensils-words">${ustensil}</option>`
+        `<option class="suggestions-ustensils-words suggestions-words">${ustensil}</option>`
     )
     .join(" ");
   const mappedAll = allUstensils
@@ -278,26 +281,27 @@ const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
     (mainInput.value == 0 && inputUstensils.value == 0) ||
     (mainInput.value != 0 && inputUstensils.value == 0)
   ) {
-    ustensilsChevronsUp.style.display = "none";
-    ustensilsChevronsDown.style.display = "flex";
-    ustensilsSuggestContainer.style.display = "none";
+   closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown)
   }
   if (
     (mainInput.value != 0 && inputUstensils.value != 0) ||
     (mainInput.value == 0 && inputUstensils.value != 0)
   ) {
-    ustensilsSuggestContainer.style.display = "flex";
-    ustensilsChevronsUp.style.display = "flex";
-    ustensilsChevronsDown.style.display = "none";
+    openSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown)
   }
   
   const nodes = [...document.querySelectorAll(".suggestions-ustensils-words")];
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => addUstensilsTags(node));
-  });
-};
+    node.addEventListener("click", (e) => {
+      createUstensilsTags(node);
+      createCards(tagSearchResult());
+      node.remove();
+      closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown);
+    })
+    })
+  };
 
-const addUstensilsTags = (node) => {
+const createUstensilsTags = (node) => {
   const tagText = node.innerText;
   tagsContainer.innerHTML += `
   <div class="tags tag-ustensils">${tagText}
@@ -309,9 +313,12 @@ const addUstensilsTags = (node) => {
     crossRemoveTag(node);
   });
 };
+
+
 export {
   createCards,
   createIngredientsSuggestContainer,
   createUstensilsSuggestContainer,
   createAppliancesSuggestContainer,
+  createErrorMsg,
 };
