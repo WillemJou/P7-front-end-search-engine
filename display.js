@@ -18,7 +18,6 @@ import {
 } from "/DOM.js";
 import { tagSearchResult } from "/function.js";
 
-
 // RECIPES SECTION
 // Create initial cards
 const createCards = (recipes) => {

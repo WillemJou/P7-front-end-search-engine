@@ -18,6 +18,7 @@ import {
   createUstensilsSuggestContainer,
 } from "./display.js";
 
+// generic FUNCTIONS for working with arrays
 const removeDuplicate = (list) => {
   return list.filter((element, index) => list.indexOf(element) === index);
 };
@@ -31,6 +32,8 @@ const mappedIngredients = (recipe) => {
     .toLowerCase();
 };
 
+
+// Algo main bar
 const mainSearchResult = () => {
   const inputValues = mainInput.value;
   const lowerCaseSearch = inputValues.toLowerCase();
@@ -44,12 +47,13 @@ const mainSearchResult = () => {
       ingredient.includes(lowerCaseSearch)
     );
   });
-  if (recipeFilter == false) {
-    return createErrorMsg();
-  } else return recipeFilter;
+  if (!recipeFilter.length) {
+    createErrorMsg();
+    return [];
+  };
+  return recipeFilter;
 };
 
-// Algo main bar
 const mainBarFilterFunction = () => {
   const inputValues = mainInput.value;
   const mainInputFiltered = mainSearchResult();
@@ -57,8 +61,12 @@ const mainBarFilterFunction = () => {
   // Display result
   if (inputValues.length >= 3) {
     return createCards(tagInputFiltered);
+    
   } else {
-    createCards(lists);
+    if(tagsContainer.style.display != 'flex'){
+      return createCards(tagInputFiltered);
+    }
+    return createCards(lists);
   }
 };
 
