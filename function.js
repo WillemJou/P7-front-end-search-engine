@@ -48,6 +48,10 @@ const mainSearchResult = () => {
       recipeFilter.push(lists[i]);
     };
   };
+  if (!recipeFilter.length) {
+    createErrorMsg();
+    return [];
+  };
   return recipeFilter;
 };
 
@@ -60,7 +64,10 @@ const mainBarFilterFunction = () => {
   if (inputValues.length >= 3) {
     return createCards(tagInputFiltered);
   } else {
-    createCards(lists);
+    if (tagsContainer.getElementsByClassName.display != "flex") {
+      return createCards(tagInputFiltered)
+    } else
+   return createCards(lists);
   }
 };
 
