@@ -44,9 +44,11 @@ const mainSearchResult = () => {
       ingredient.includes(lowerCaseSearch)
     );
   });
-  if (recipeFilter == false) {
-    return createErrorMsg();
-  } else return recipeFilter;
+  if ( inputValues.length >= 3 && !recipeFilter.length) {
+    createErrorMsg();
+    return [];
+  };
+  return recipeFilter;
 };
 
 // Algo main bar
@@ -58,7 +60,10 @@ const mainBarFilterFunction = () => {
   if (inputValues.length >= 3) {
     return createCards(tagInputFiltered);
   } else {
-    createCards(lists);
+    if (inputValues.length >= 3 && tagsContainer.getElementsByClassName.display != "flex") {
+      return createCards(tagInputFiltered)
+    }
+   return createCards(lists);
   }
 };
 
