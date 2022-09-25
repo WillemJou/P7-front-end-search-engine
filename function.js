@@ -47,12 +47,13 @@ const mainSearchResult = () => {
       ingredient.includes(lowerCaseSearch)
     );
   });
-  if (!recipeFilter.length) {
+  if ( inputValues.length >= 3 && !recipeFilter.length) {
     createErrorMsg();
     return [];
   };
   return recipeFilter;
 };
+
 
 const mainBarFilterFunction = () => {
   const inputValues = mainInput.value;
@@ -63,12 +64,13 @@ const mainBarFilterFunction = () => {
     return createCards(tagInputFiltered);
     
   } else {
-    if(tagsContainer.style.display != 'flex'){
-      return createCards(tagInputFiltered);
+    if (inputValues.length >= 3 && tagsContainer.getElementsByClassName.display != "flex") {
+      return createCards(tagInputFiltered)
     }
-    return createCards(lists);
+   return createCards(lists);
   }
 };
+
 
 mainInput.addEventListener("input", mainBarFilterFunction);
 
