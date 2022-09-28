@@ -60,16 +60,11 @@ const mainBarFilterFunction = () => {
   const inputValues = mainInput.value;
   const mainInputFiltered = mainSearchResult();
   const tagInputFiltered = tagSearchResult(mainInputFiltered);
-  // Display result
-  if (inputValues.length >= 3) {
-    return createCards(tagInputFiltered);
-  } else {
-    if (inputValues.length >= 3 && tagsContainer.getElementsByClassName.display != "flex") {
+    if ((inputValues.length >= 3) && (tagsContainer.style.display = "flex") || (!inputValues.length)) {
       return createCards(tagInputFiltered)
     } else
    return createCards(lists);
   }
-};
 
 mainInput.addEventListener("input", mainBarFilterFunction);
 
