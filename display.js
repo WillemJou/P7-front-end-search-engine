@@ -28,9 +28,9 @@ const createCards = (recipes) => {
     recipeCard.setAttribute('id', 'recipe_card')
     recipeCard.classList.add('col-md-3', 'd-flex', 'flex-column', 'my-5')
     recipeCard.innerHTML = `
-    <img src='https://source.unsplash.com/random/?${
+    <img src='https://source.unsplash.com/random?${
       recipe.name
-    }' id="img_card" class="w-100 h-50"/>
+    }' id="img_card" class="w-100"/>
     <div id="info_recipe" class="p-4">
     <div id="title_time_container" class="d-flex justify-content-between">
     <div id="title_container">

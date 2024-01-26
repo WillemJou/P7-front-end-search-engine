@@ -160,12 +160,14 @@ input::placeholder {
 }
 #recipe_card {
   width: 32%;
-  height: 450px;
+  height: auto;
   border-radius: 5px;
   background: #e7e7e7;
   padding: 0;
 }
 #img_card {
+  object-fit: cover;
+  height: 250px;
   background-color: #c7bebe;
   border-radius: 5px 5px 0 0;
 }
