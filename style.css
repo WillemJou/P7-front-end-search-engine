@@ -14,6 +14,7 @@
   display: none;
 }
 .btn-group {
+  width: 75%;
   display: flex;
 }
 .glass-icon {
@@ -25,7 +26,7 @@
 }
 .title {
   font-family: 'DM Sans', sans-serif;
-  color: #d04f4f;
+  color: #d0181f;
   font-weight: 700;
   text-align: center;
   width: 100%;
@@ -33,13 +34,16 @@
 .link {
   margin-top: 5vh;
   display: flex;
-  margin: 5% 33% 0 33%;
+  margin: 5% 33% 2% 33%;
   text-decoration: none;
   align-items: center;
   flex-direction: column;
   justify-content: center;
 }
 .search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 3%;
   border-style: none;
 }
@@ -64,6 +68,7 @@
   border-radius: 5%;
   outline: none;
   font-family: 'Lato';
+  font-size: 20px;
   font-style: normal;
   color: rgba(43, 42, 42, 0.25);
   background: #e7e7e7;
@@ -98,7 +103,7 @@ input::placeholder {
   width: 100.5%;
   display: flex;
   position: absolute;
-  top: 92px;
+  top: 70px;
   left: -1px;
   flex-wrap: wrap;
   gap: 20px;
@@ -139,7 +144,7 @@ input::placeholder {
 .dropdown-btn {
   width: 25%;
   color: white;
-  padding: 3%;
+  padding: 1rem 0.7rem;
   font-size: 20px;
 }
 .dropdown-btn:hover {

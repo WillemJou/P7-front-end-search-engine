@@ -1,4 +1,4 @@
-import { recipes as lists } from "/recipes.js";
+import { recipes as lists } from '/recipes.js'
 import {
   recipesContainer,
   ingredientsSuggestContainer,
@@ -15,19 +15,22 @@ import {
   appliancesChevronsUp,
   ustensilsChevronsDown,
   ustensilsChevronsUp,
-} from "/DOM.js";
-import { tagSearchResult } from "/function.js";
+} from '/DOM.js'
+import { tagSearchResult } from '/function.js'
 
 // RECIPES SECTION
+
 // Create initial cards
 const createCards = (recipes) => {
-  recipesContainer.innerHTML = "";
+  recipesContainer.innerHTML = ''
   recipes.forEach((recipe) => {
-    const recipeCard = document.createElement("div");
-    recipeCard.setAttribute("id", "recipe_card");
-    recipeCard.classList.add("col-md-3", "d-flex", "flex-column", "my-5");
+    const recipeCard = document.createElement('div')
+    recipeCard.setAttribute('id', 'recipe_card')
+    recipeCard.classList.add('col-md-3', 'd-flex', 'flex-column', 'my-5')
     recipeCard.innerHTML = `
-    <div id="img_card" class="w-100 h-50"></div>
+    <img src='https://source.unsplash.com/random/?${
+      recipe.name
+    }' id="img_card" class="w-100 h-50"/>
     <div id="info_recipe" class="p-4">
     <div id="title_time_container" class="d-flex justify-content-between">
     <div id="title_container">
@@ -44,10 +47,10 @@ const createCards = (recipes) => {
     ${recipe.ingredients
       .map(
         (i) =>
-        `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
+          `<li>${i.ingredient}: ${i.quantity === undefined ? `` : i.quantity} 
         ${i.unit === undefined ? `` : i.unit}</li>`
-        )
-        .join("")}
+      )
+      .join('')}
         </ul>
         </div>
         <div id="description_container">
@@ -56,208 +59,244 @@ const createCards = (recipes) => {
           </div>
           </div>
           </div>
-          `;
-          
-          recipesContainer.append(recipeCard);
-        });
-      };
-      createCards(lists);
-      
-      // ERROR MESSAGE
-      const createErrorMsg = () => {
-        return recipesContainer.innerHTML = 
-        `<div class="error-msg">"Aucune recette ne correspond à votre critère...
+          `
+
+    recipesContainer.append(recipeCard)
+  })
+}
+createCards(lists)
+
+// ERROR MESSAGE
+const createErrorMsg = () => {
+  return (recipesContainer.innerHTML = `<div class="error-msg">"Aucune recette ne correspond à votre critère...
         vous pouvez chercher tarte aux pommes, poisson, etc."
-        </div>`;
-      };
-      
+        </div>`)
+}
+
 // FONCTION REMOVETAG
 const crossRemoveTag = (node) => {
-  const crossesTag = document.querySelectorAll(".cross-tag");
+  const crossesTag = document.querySelectorAll('.cross-tag')
   crossesTag.forEach((cross) => {
-    cross.style.cursor = "pointer";
-    cross.style.paddingLeft = "5px";
-    cross.addEventListener("click", (e) => {
-      closeLastSearch(cross);
-      ingredientsSuggestContainer.append(node);
-    });
-  });
-};
-// return to cards according to filters tags 
+    cross.style.cursor = 'pointer'
+    cross.style.paddingLeft = '5px'
+    cross.addEventListener('click', (e) => {
+      closeLastSearch(cross)
+      ingredientsSuggestContainer.append(node)
+    })
+  })
+}
+// return to cards according to filters tags
 const closeLastSearch = (cross) => {
-  cross.parentNode.remove();
-    return createCards(tagSearchResult());
-  };
+  cross.parentNode.remove()
+  return createCards(tagSearchResult())
+}
 
 // Chevron part
 const chevronEvents = () => {
-  ingredientsChevronsUp.addEventListener("click", (e) => {
+  ingredientsChevronsUp.addEventListener('click', (e) => {
     closeSuggestContainer(
       ingredientsSuggestContainer,
       ingredientsChevronsUp,
       ingredientsChevronsDown
     )
-    })
-  ingredientsChevronsDown.addEventListener("click", (e) =>
+  })
+  ingredientsChevronsDown.addEventListener('click', (e) =>
     openSuggestContainer(
       ingredientsSuggestContainer,
       ingredientsChevronsUp,
       ingredientsChevronsDown
     )
-  );
-  appliancesChevronsUp.addEventListener("click", (e) =>
+  )
+  appliancesChevronsUp.addEventListener('click', (e) =>
     closeSuggestContainer(
       appliancesSuggestContainer,
       appliancesChevronsUp,
       appliancesChevronsDown
     )
-  );
-  appliancesChevronsDown.addEventListener("click", (e) =>
+  )
+  appliancesChevronsDown.addEventListener('click', (e) =>
     openSuggestContainer(
       appliancesSuggestContainer,
       appliancesChevronsUp,
       appliancesChevronsDown
     )
-  );
-  ustensilsChevronsUp.addEventListener("click", (e) =>
+  )
+  ustensilsChevronsUp.addEventListener('click', (e) =>
     closeSuggestContainer(
       ustensilsSuggestContainer,
       ustensilsChevronsUp,
       ustensilsChevronsDown
     )
-  );
-  ustensilsChevronsDown.addEventListener("click", (e) =>
+  )
+  ustensilsChevronsDown.addEventListener('click', (e) =>
     openSuggestContainer(
       ustensilsSuggestContainer,
       ustensilsChevronsUp,
       ustensilsChevronsDown
     )
-  );
-};
+  )
+}
+
+// add a display none starting funcs to suggestions container when app is created
+const ingdtsNoneSuggestContainer = () => {
+  ingredientsSuggestContainer.style.display = 'none'
+}
+const applsNoneSuggestContainer = () => {
+  appliancesSuggestContainer.style.display = 'none'
+}
+const ustlsNoneSuggestContainer = () => {
+  ustensilsSuggestContainer.style.display = 'none'
+}
+ingdtsNoneSuggestContainer()
+applsNoneSuggestContainer()
+ustlsNoneSuggestContainer()
+//
 
 const closeSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
-  suggestContainer.style.display = "none";
-  (chevronUp.style.display = "none"), (chevronDown.style.display = "flex");
-};
+  suggestContainer.style.display = 'none'
+  ;(chevronUp.style.display = 'none'), (chevronDown.style.display = 'flex')
+}
 
 const openSuggestContainer = (suggestContainer, chevronUp, chevronDown) => {
-  suggestContainer.style.display = "flex";
-  (chevronUp.style.display = "flex"), (chevronDown.style.display = "none");
-};
-chevronEvents();
+  suggestContainer.style.display = 'flex'
+  ;(chevronUp.style.display = 'flex'), (chevronDown.style.display = 'none')
+}
+chevronEvents()
 // End chevron's part
 
-//  INGREDIENTS SUGGESTIONS 
+//  INGREDIENTS SUGGESTIONS
 const createIngredientsSuggestContainer = (ingredients, allIngredients) => {
   const mapped = ingredients
     .map(
       (ingdt) =>
         `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`
     )
-    .join(" ");
+    .join(' ')
   const mappedAll = allIngredients
     .map(
       (ingdt) =>
         `<option class="suggestions-ingredients-words suggestions-words">${ingdt}</option>`
     )
-    .join(" ");
-  chevronEvents();
-  ingredientsSuggestContainer.innerHTML = mappedAll;
-  ingredientsSuggestContainer.innerHTML = mapped;
-  
+    .join(' ')
+  chevronEvents()
+  ingredientsSuggestContainer.innerHTML = mappedAll
+  ingredientsSuggestContainer.innerHTML = mapped
+
   // CONDITIONS FOR CHEVRONS AND DISPLAY SUGGESTIONS CONTAINER
   if (
     (mainInput.value == 0 && inputIngredients.value == 0) ||
     (mainInput.value != 0 && inputIngredients.value == 0)
-    ) {
-      closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
-    }
-    if (
-      (mainInput.value != 0 && inputIngredients.value != 0) ||
-      (mainInput.value == 0 && inputIngredients.value != 0)
-      ) {
-        openSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
-      }
+  ) {
+    closeSuggestContainer(
+      ingredientsSuggestContainer,
+      ingredientsChevronsUp,
+      ingredientsChevronsDown
+    )
+  }
+  if (
+    (mainInput.value != 0 && inputIngredients.value != 0) ||
+    (mainInput.value == 0 && inputIngredients.value != 0)
+  ) {
+    openSuggestContainer(
+      ingredientsSuggestContainer,
+      ingredientsChevronsUp,
+      ingredientsChevronsDown
+    )
+  }
 
-      // GET NODE SUGGESTIONS FOR TAGS
-  const nodes = [
-    ...document.querySelectorAll(".suggestions-ingredients-words"),
-  ];
+  // GET NODE SUGGESTIONS FOR TAGS
+  const nodes = [...document.querySelectorAll('.suggestions-ingredients-words')]
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => {
-      createIngredientsTags(node);
-      createCards(tagSearchResult());
-      node.remove();
-      closeSuggestContainer(ingredientsSuggestContainer, ingredientsChevronsUp, ingredientsChevronsDown);
-    });
-  });
-};
-    
-   // INGREDIENTS TAGS
+    node.addEventListener('click', (e) => {
+      createIngredientsTags(node)
+      createCards(tagSearchResult())
+      node.remove()
+      closeSuggestContainer(
+        ingredientsSuggestContainer,
+        ingredientsChevronsUp,
+        ingredientsChevronsDown
+      )
+    })
+  })
+}
+
+// INGREDIENTS TAGS
 const createIngredientsTags = (node) => {
-  const tagText = node.innerText;
+  const tagText = node.innerText
   tagsContainer.innerHTML += `
         <div class="tags tag-ingredients">${tagText}
-        <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-  const tags = document.querySelectorAll(".tag-ingredients");
+        <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`
+  const tags = document.querySelectorAll('.tag-ingredients')
   const tag = tags.forEach((tag) => {
-    tag.style.background = "#3282F7";
-    crossRemoveTag(node);
-  });
-};
-
+    tag.style.background = '#3282F7'
+    crossRemoveTag(node)
+  })
+}
 
 const createAppliancesSuggestContainer = (appliances, allAppliances) => {
   const mapped = appliances
     .map(
-      (appl) => `<option class="suggestions-appliances-words suggestions-words">${appl}</option>`
+      (appl) =>
+        `<option class="suggestions-appliances-words suggestions-words">${appl}</option>`
     )
-    .join(" ");
+    .join(' ')
   const mappedAll = allAppliances
     .map(
       (ingdt) =>
         `<option class="suggestions-appliances-words suggestions-words">${ingdt}</option>`
     )
-    .join(" ");
-  chevronEvents();
-  appliancesSuggestContainer.innerHTML = mappedAll;
-  appliancesSuggestContainer.innerHTML = mapped;
+    .join(' ')
+  chevronEvents()
+  appliancesSuggestContainer.innerHTML = mappedAll
+  appliancesSuggestContainer.innerHTML = mapped
 
   if (
     (mainInput.value == 0 && inputAppliances.value == 0) ||
     (mainInput.value != 0 && inputAppliances.value == 0)
   ) {
-    closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown)
-    }
+    closeSuggestContainer(
+      appliancesSuggestContainer,
+      appliancesChevronsUp,
+      appliancesChevronsDown
+    )
+  }
   if (
     (mainInput.value != 0 && inputAppliances.value != 0) ||
     (mainInput == 0 && inputAppliances != 0)
   ) {
-    openSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown)
+    openSuggestContainer(
+      appliancesSuggestContainer,
+      appliancesChevronsUp,
+      appliancesChevronsDown
+    )
   }
-  const nodes = [...document.querySelectorAll(".suggestions-appliances-words")];
+  const nodes = [...document.querySelectorAll('.suggestions-appliances-words')]
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => {
-      createAppliancesTags(node);
-      createCards(tagSearchResult());
-      node.remove();
-      closeSuggestContainer(appliancesSuggestContainer, appliancesChevronsUp, appliancesChevronsDown);
+    node.addEventListener('click', (e) => {
+      createAppliancesTags(node)
+      createCards(tagSearchResult())
+      node.remove()
+      closeSuggestContainer(
+        appliancesSuggestContainer,
+        appliancesChevronsUp,
+        appliancesChevronsDown
+      )
     })
-    })
-  };
+  })
+}
 
 const createAppliancesTags = (node) => {
-  const tagText = node.innerText;
+  const tagText = node.innerText
   tagsContainer.innerHTML += `
   <div class="tags tag-appliances">${tagText}
-  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-  const tags = document.querySelectorAll(".tag-appliances");
+  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`
+  const tags = document.querySelectorAll('.tag-appliances')
   const tagStyle = tags.forEach((tag) => {
-    tag.style.background = "#68D9A4";
-    node.style.display = "none";
-    crossRemoveTag(node);
-  });
-};
+    tag.style.background = '#68D9A4'
+    node.style.display = 'none'
+    crossRemoveTag(node)
+  })
+}
 
 const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
   const mapped = ustensils
@@ -265,54 +304,65 @@ const createUstensilsSuggestContainer = (ustensils, allUstensils) => {
       (ustensil) =>
         `<option class="suggestions-ustensils-words suggestions-words">${ustensil}</option>`
     )
-    .join(" ");
+    .join(' ')
   const mappedAll = allUstensils
     .map(
       (ingdt) =>
         `<option class="suggestions-ustensils-words suggestions-words">${ingdt}</option>`
     )
-    .join(" ");
-  chevronEvents();
-  ustensilsSuggestContainer.innerHTML = mappedAll;
-  ustensilsSuggestContainer.innerHTML = mapped;
+    .join(' ')
+  chevronEvents()
+  ustensilsSuggestContainer.innerHTML = mappedAll
+  ustensilsSuggestContainer.innerHTML = mapped
 
   if (
     (mainInput.value == 0 && inputUstensils.value == 0) ||
     (mainInput.value != 0 && inputUstensils.value == 0)
   ) {
-   closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown)
+    closeSuggestContainer(
+      ustensilsSuggestContainer,
+      ustensilsChevronsUp,
+      ustensilsChevronsDown
+    )
   }
   if (
     (mainInput.value != 0 && inputUstensils.value != 0) ||
     (mainInput.value == 0 && inputUstensils.value != 0)
   ) {
-    openSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown)
+    openSuggestContainer(
+      ustensilsSuggestContainer,
+      ustensilsChevronsUp,
+      ustensilsChevronsDown
+    )
   }
-  
-  const nodes = [...document.querySelectorAll(".suggestions-ustensils-words")];
+
+  const nodes = [...document.querySelectorAll('.suggestions-ustensils-words')]
   nodes.forEach((node) => {
-    node.addEventListener("click", (e) => {
-      createUstensilsTags(node);
-      createCards(tagSearchResult());
-      node.remove();
-      closeSuggestContainer(ustensilsSuggestContainer, ustensilsChevronsUp, ustensilsChevronsDown);
+    node.addEventListener('click', (e) => {
+      createUstensilsTags(node)
+      createCards(tagSearchResult())
+      node.remove()
+      closeSuggestContainer(
+        ustensilsSuggestContainer,
+        ustensilsChevronsUp,
+        ustensilsChevronsDown
+      )
     })
-    })
-  };
+  })
+}
 
 const createUstensilsTags = (node) => {
-  const tagText = node.innerText;
+  const tagText = node.innerText
   tagsContainer.innerHTML += `
   <div class="tags tag-ustensils">${tagText}
-  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`;
-  const tags = document.querySelectorAll(".tag-ustensils");
-  crossRemoveTag();
+  <i class="fa-regular fa-circle-xmark cross-tag"></i></div>`
+  const tags = document.querySelectorAll('.tag-ustensils')
+  crossRemoveTag()
   const tagStyle = tags.forEach((tag) => {
-    tag.style.background = "#ED6454";
-    crossRemoveTag(node);
-  });
-};
-
+    tag.style.background = '#ED6454'
+    crossRemoveTag(node)
+  })
+}
 
 export {
   createCards,
@@ -320,4 +370,4 @@ export {
   createUstensilsSuggestContainer,
   createAppliancesSuggestContainer,
   createErrorMsg,
-};
+}
